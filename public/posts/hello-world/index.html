@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-cn" class="h-full">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=3104&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>告别手动上传：Hugo &#43; GitHub Actions 自动化部署复盘 | Windows DIY 博客</title>
+    
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class', 
+            theme: {
+                extend: {
+                    colors: {
+                        
+                        bg: 'rgb(var(--color-bg) / <alpha-value>)',
+                        surface: 'rgb(var(--color-surface) / <alpha-value>)',
+                        text: 'rgb(var(--color-text) / <alpha-value>)',
+                        'muted': 'rgb(var(--color-text-muted) / <alpha-value>)', 
+                        'border-color': 'rgb(var(--color-border) / <alpha-value>)', 
+                        accent: 'rgb(var(--color-accent) / <alpha-value>)',
+                    },
+                    
+                    typography: ({ theme }) => ({
+                        DEFAULT: {
+                            css: {
+                                '--tw-prose-body': theme('colors.text'),
+                                '--tw-prose-headings': theme('colors.text'),
+                                '--tw-prose-links': theme('colors.accent'),
+                                '--tw-prose-bold': theme('colors.text'),
+                                '--tw-prose-code': theme('colors.accent'),
+                                '--tw-prose-quotes': theme('colors.muted'),
+                            },
+                        },
+                    }),
+                }
+            }
+        }
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/custom.css">
+</head>
+
+<body class="h-full overflow-hidden transition-colors duration-500">
+
+    <div class="flex h-full">
+
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-72 transform transition-transform duration-300 ease-in-out bg-bg md:bg-transparent">
+            <div class="h-full p-4">
+                <div class="glass-panel h-full rounded-2xl flex flex-col p-6 shadow-2xl relative overflow-hidden group">
+                    
+                    <div class="absolute -top-10 -right-10 w-32 h-32 bg-accent/20 rounded-full blur-3xl pointer-events-none group-hover:bg-accent/30 transition duration-500"></div>
+
+                    <div class="text-center mt-4 mb-8 relative z-10">
+                        <div class="w-24 h-24 mx-auto rounded-full border-2 border-accent p-1 mb-4 shadow-[0_0_15px_rgba(var(--color-accent),0.5)] transition-shadow duration-300">
+                            <img src="/images/head.jpg" alt="Avatar" class="w-full h-full rounded-full object-cover">
+                        </div>
+                        <h2 class="text-xl font-bold text-text">云间辞</h2>
+                        <p class="text-muted text-sm mt-1">code · 摄影 · 咸鱼</p>
+                    </div>
+
+                    <div class="bg-black/10 dark:bg-black/30 rounded-lg p-3 mb-8 border border-border-color/10 font-mono">
+                        <span class="text-accent mr-2">></span>
+                        <span id="typewriter" class="text-sm text-text/80"></span>
+                        <span class="animate-pulse text-accent">_</span>
+                    </div>
+
+                    <nav class="flex-1 space-y-2">
+                        
+                        <a href="/" class="flex items-center p-3 rounded-lg hover:bg-accent/10 hover:text-accent text-muted transition group">
+                            <i class="ri-home-4-line mr-3 text-lg"></i>
+                            <span class="group-hover:translate-x-1 transition-transform">首页</span>
+                        </a>
+                        
+                        <a href="/posts" class="flex items-center p-3 rounded-lg hover:bg-accent/10 hover:text-accent text-muted transition group">
+                            <i class="ri-article-line mr-3 text-lg"></i>
+                            <span class="group-hover:translate-x-1 transition-transform">文章</span>
+                        </a>
+                        
+                        <a href="/archives" class="flex items-center p-3 rounded-lg hover:bg-accent/10 hover:text-accent text-muted transition group">
+                            <i class="ri-time-line mr-3 text-lg"></i>
+                            <span class="group-hover:translate-x-1 transition-transform">时间线</span>
+                        </a>
+                        
+                        <a href="/about" class="flex items-center p-3 rounded-lg hover:bg-accent/10 hover:text-accent text-muted transition group">
+                            <i class="ri-user-3-line mr-3 text-lg"></i>
+                            <span class="group-hover:translate-x-1 transition-transform">关于</span>
+                        </a>
+                        
+                    </nav>
+
+                    <div class="flex justify-center space-x-6 mt-auto pt-6 border-t border-border-color/10">
+                        
+                        <a href="https://github.com/YOUR_ID" target="_blank" class="text-muted hover:text-accent hover:scale-110 transition">
+                            <i class="ri-github-fill text-2xl"></i>
+                        </a>
+                        
+                        <a href="https://gitee.com/YOUR_ID" target="_blank" class="text-muted hover:text-accent hover:scale-110 transition">
+                            <i class="ri-code-box-fill text-2xl"></i>
+                        </a>
+                        
+                        <a href="https://space.bilibili.com/YOUR_ID" target="_blank" class="text-muted hover:text-accent hover:scale-110 transition">
+                            <i class="ri-bilibili-fill text-2xl"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <div id="main-content" class="flex-1 flex flex-col h-full overflow-hidden relative transition-all duration-300">
+            
+            <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden backdrop-blur-sm transition-opacity" onclick="toggleSidebar()"></div>
+
+            <header class="flex items-center justify-between px-6 py-4 glass-panel border-b border-border-color/10 rounded-none z-30 sticky top-0">
+                <button onclick="toggleSidebar()" class="text-muted hover:text-accent p-2 rounded-md transition">
+                    <i class="ri-menu-2-fill text-xl"></i>
+                </button>
+
+                <div class="text-sm font-bold text-accent tracking-widest">
+                     告别手动上传：HUGO &#43; GITHUB ACTIONS 自动化部署复盘 
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-8 custom-scrollbar">
+                <div class="max-w-4xl mx-auto animate-fade-in prose prose-lg">
+                    
+<article class="prose prose-invert lg:prose-xl mx-auto">
+    <header class="mb-10">
+        <h1 class="text-4xl font-bold text-text mb-4">告别手动上传：Hugo &#43; GitHub Actions 自动化部署复盘</h1>
+        <div class="text-text-muted text-sm flex items-center gap-4">
+            <span>📅 2026-01-14</span>
+            <span>⏱️ 2 min read</span>
+            
+                <span class="px-2 py-1 bg-purple-900 text-purple-200 rounded text-xs">
+                    技术复盘
+                </span>
+            
+        </div>
+    </header>
+
+    
+
+    <div class="leading-relaxed text-text">
+        <h1 id="告别手动上传hugo--github-actions-自动化部署复盘">告别手动上传：Hugo + GitHub Actions 自动化部署复盘</h1>
+<blockquote>
+<p><strong>日期：</strong> 2026-01-14<br>
+<strong>环境：</strong> Windows 11 / Debian 12 / GitHub Private Repo</p>
+</blockquote>
+<hr>
+<h2 id="前言从重复劳动到自动化触发">前言：从重复劳动到自动化触发</h2>
+<p>手动执行 Hugo 生成、连接服务器、传输文件的发布流程，不仅效率低下，且容易因操作失误导致部署异常。理想的发布流程应满足：<strong>版本控制即发布行为</strong>，代码推送完成后，构建与部署环节应完全自动化。</p>
+<p>基于此目标，本次实践旨在搭建 Hugo + GitHub Actions + 腾讯云的 CI/CD 流水线。预估耗时 30 分钟，实际耗时约 4 小时，主要阻塞点集中在 SSH 密钥认证与 Linux 文件权限配置。</p>
+<hr>
+<h2 id="系统架构">系统架构</h2>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">组件</th>
+          <th style="text-align: left">技术选型</th>
+          <th style="text-align: left">说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>本地开发</strong></td>
+          <td style="text-align: left">Windows 11 + VS Code</td>
+          <td style="text-align: left">配置透明化工作区与连体字体</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>静态站点生成器</strong></td>
+          <td style="text-align: left">Hugo</td>
+          <td style="text-align: left">构建速度快，生态成熟</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>代码仓库</strong></td>
+          <td style="text-align: left">GitHub Private Repository</td>
+          <td style="text-align: left">保护草稿阶段内容</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>服务器</strong></td>
+          <td style="text-align: left">腾讯云轻量应用服务器</td>
+          <td style="text-align: left">操作系统：Debian 12</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Web 服务</strong></td>
+          <td style="text-align: left">Nginx</td>
+          <td style="text-align: left">静态资源托管</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>自动化工具</strong></td>
+          <td style="text-align: left">GitHub Actions</td>
+          <td style="text-align: left">免费额度满足个人博客需求</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="关键问题复盘">关键问题复盘</h2>
+<h3 id="问题一git-推送拒绝历史线冲突">问题一：Git 推送拒绝（历史线冲突）</h3>
+<p><strong>现象：</strong><br>
+初始化仓库后首次 <code>git push</code> 失败，提示 <code>failed to push some refs to...</code>。</p>
+<p><strong>根因：</strong><br>
+远程仓库初始化时勾选了「创建 README.md」，导致远端与本地历史线不一致，Git 拒绝非快进式合并。</p>
+<p><strong>解决方案：</strong><br>
+首次推送采用强制覆盖策略（仅适用于初始化阶段）：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git remote add origin git@github.com:username/repository.git
+</span></span><span style="display:flex;"><span>git push -u origin main -f  <span style="color:#75715e"># -f 参数强制同步，后续提交需避免使用</span>
+</span></span></code></pre></div><p><strong>经验总结：</strong><br>
+自动化流程要求仓库历史线纯净，建议初始化时选择空仓库，后续通过代码提交补充 README。</p>
+<hr>
+<h3 id="问题二ssh-私钥保护密码导致认证失败">问题二：SSH 私钥保护密码导致认证失败</h3>
+<p><strong>现象：</strong><br>
+GitHub Actions 日志显示 <code>ssh: unable to authenticate</code>，提示私钥被密码保护。</p>
+<p><strong>根因：</strong><br>
+生成 SSH 密钥时设置了通行密码（passphrase），自动化脚本无法交互式输入，导致握手失败。</p>
+<p><strong>解决方案：</strong><br>
+生成无密码保护的专用部署密钥：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>ssh-keygen -t rsa -b <span style="color:#ae81ff">4096</span> -m PEM <span style="color:#f92672">-f</span> ~/.ssh/github_deploy -N <span style="color:#e6db74">&#34;&#34;</span>
+</span></span></code></pre></div><p><strong>安全风险说明：</strong><br>
+无密码密钥需配合 GitHub Secrets 严格保管，建议服务器端限制该密钥的来源 IP 与执行权限。</p>
+<hr>
+<h3 id="问题三linux-权限模型的强制约束">问题三：Linux 权限模型的强制约束</h3>
+<p><strong>现象：</strong><br>
+本地 SSH 测试连接成功，GitHub Actions 持续返回 <code>Permission denied (publickey)</code>。开启 verbose 模式后，日志中断在 <code>we did not send a packet, disable method</code>。</p>
+<p><strong>根因：</strong><br>
+SSH 服务对密钥文件权限有强制性安全校验。若 <code>.ssh</code> 目录或 <code>authorized_keys</code> 文件权限过松（如组用户或其他用户可读/写），SSH 将拒绝使用该密钥认证，且不会明确提示权限问题。</p>
+<p><strong>解决方案：</strong><br>
+执行权限修正三阶段操作：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod <span style="color:#ae81ff">700</span> ~/.ssh                      <span style="color:#75715e"># 目录：仅所有者可读写执行</span>
+</span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">600</span> ~/.ssh/authorized_keys      <span style="color:#75715e"># 公钥文件：仅所有者可读写</span>
+</span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">750</span> /home/username              <span style="color:#75715e"># 用户主目录：避免 777 权限导致校验失败</span>
+</span></span></code></pre></div><p><strong>排查建议：</strong><br>
+此问题隐蔽性强，建议通过 <code>ssh -vvv</code> 逐行分析握手过程，关注密钥加载阶段的日志输出。</p>
+<hr>
+<h3 id="问题四服务端-ssh-配置未启用公钥认证">问题四：服务端 SSH 配置未启用公钥认证</h3>
+<p><strong>现象：</strong><br>
+上述步骤完成后，GitHub Actions 仍无法连接，但本地客户端可成功认证。</p>
+<p><strong>根因：</strong><br>
+服务器 <code>/etc/ssh/sshd_config</code> 配置文件中，<code>PubkeyAuthentication</code> 未显式开启或 <code>PermitRootLogin</code> 被禁用。</p>
+<p><strong>解决方案：</strong><br>
+修改服务端 SSH 配置并重启服务：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo nano /etc/ssh/sshd_config
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 确保以下配置项已启用</span>
+</span></span><span style="display:flex;"><span>PubkeyAuthentication yes
+</span></span><span style="display:flex;"><span>PermitRootLogin yes          <span style="color:#75715e"># 生产环境建议改用普通用户 + sudo</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo systemctl restart ssh
+</span></span></code></pre></div><hr>
+<h2 id="最终成果自动化工作流">最终成果：自动化工作流</h2>
+<p>完成上述配置后，GitHub Actions 执行状态由 ❌ 全部转为 ✅，部署流程实现完全自动化。</p>
+<p><strong>当前工作流：</strong></p>
+<ol>
+<li><strong>本地提交：</strong> <code>git commit</code> 后执行 <code>git push origin main</code></li>
+<li><strong>触发构建：</strong> GitHub Actions 监听 <code>push</code> 事件，拉取代码</li>
+<li><strong>静态生成：</strong> 执行 <code>hugo --minify</code> 生成优化后的静态文件</li>
+<li><strong>部署传输：</strong> 通过 <code>scp</code> 命令将 <code>public/</code> 目录同步至服务器 Nginx 路径</li>
+<li><strong>线上生效：</strong> Nginx 配置 <code>autoindex off</code>，无需重启即可对外服务</li>
+</ol>
+<p><strong>平均部署耗时：</strong> 35-45 秒</p>
+<hr>
+<h2 id="开发环境优化">开发环境优化</h2>
+<p>为提升写作体验，同步优化了 VS Code 工作区配置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;workbench.colorCustomizations&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;statusBar.background&#34;</span>: <span style="color:#e6db74">&#34;#673ab7&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;statusBar.foreground&#34;</span>: <span style="color:#e6db74">&#34;#e1e1e1&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;editor.fontFamily&#34;</span>: <span style="color:#e6db74">&#34;JetBrains Mono, Consolas, monospace&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;editor.fontLigatures&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;glassit.alpha&#34;</span>: <span style="color:#ae81ff">250</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li><strong>JetBrains Mono 字体：</strong> 符号连字提升代码可读性</li>
+<li><strong>GlassIt-VSC 插件：</strong> 调整窗口透明度，适应多任务参考场景</li>
+<li><strong>状态栏配色：</strong> 视觉区分工作区状态</li>
+</ul>
+<hr>
+<h2 id="总结与后续规划">总结与后续规划</h2>
+<p>本次实践的核心价值在于理解 CI/CD 底层机制：<strong>Git 作为事件源、SSH 作为认证通道、Linux 权限作为安全基线</strong>。自动化不仅节省重复劳动，更强化了部署流程的规范性与可回滚性。</p>
+<p><strong>后续待办事项：</strong></p>
+<ol>
+<li><strong>安全加固：</strong> 创建专用部署用户，禁用 root 远程登录</li>
+<li><strong>传输优化：</strong> 采用 <code>rsync</code> 替代 <code>scp</code>，实现增量同步</li>
+<li><strong>HTTPS 配置：</strong> 申请并配置 Let&rsquo;s Encrypt 证书</li>
+<li><strong>多环境部署：</strong> 利用 GitHub Actions Environments 实现预览站点与生产站点分离</li>
+</ol>
+<p>对于仍在手动部署的同学，建议尽早投入时间搭建自动化流水线。初期踩坑成本虽高，但长期收益显著。</p>
+<hr>
+<p><em>技术复盘于 2026-01-15 凌晨完成，部署流程现已稳定运行。</em></p>
+
+    </div>
+</article>
+
+                </div>
+                <footer class="text-center text-muted text-xs py-8 mt-8 border-t border-border-color/10">
+                    &copy; 2026 Windows DIY 博客. Power by Hugo.
+                </footer>
+            </main>
+        </div>
+
+    </div>
+
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end space-y-4 group">
+        
+        <div id="settings-menu" class="bg-surface border border-border-color/10 p-4 rounded-xl shadow-2xl translate-y-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition duration-300 mb-2">
+            
+            <div class="mb-4">
+                <p class="text-xs text-muted mb-2 font-bold">MODE</p>
+                <div class="flex bg-bg rounded-lg p-1 border border-border-color/10">
+                    <button onclick="setThemeMode('auto')" class="flex-1 px-3 py-1 text-xs rounded-md hover:bg-surface text-muted transition" id="btn-auto">Auto</button>
+                    <button onclick="setThemeMode('light')" class="flex-1 px-3 py-1 text-xs rounded-md hover:bg-surface text-muted transition" id="btn-light">☀</button>
+                    <button onclick="setThemeMode('dark')" class="flex-1 px-3 py-1 text-xs rounded-md hover:bg-surface text-muted transition" id="btn-dark">🌙</button>
+                </div>
+            </div>
+
+            <div>
+                <p class="text-xs text-muted mb-2 font-bold">MORANDI THEME</p>
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="setMorandiTheme('muted-blue')" class="w-8 h-8 rounded-lg bg-slate-600 border-2 border-transparent hover:scale-110 transition" title="灰蓝"></button>
+                    <button onclick="setMorandiTheme('muted-green')" class="w-8 h-8 rounded-lg bg-emerald-700 border-2 border-transparent hover:scale-110 transition" title="灰绿"></button>
+                    <button onclick="setMorandiTheme('muted-pink')" class="w-8 h-8 rounded-lg bg-pink-600 border-2 border-transparent hover:scale-110 transition" title="灰粉"></button>
+                    <button onclick="setMorandiTheme('muted-yellow')" class="w-8 h-8 rounded-lg bg-amber-600 border-2 border-transparent hover:scale-110 transition" title="灰黄"></button>
+                    <button onclick="setMorandiTheme('muted-purple')" class="w-8 h-8 rounded-lg bg-violet-700 border-2 border-transparent hover:scale-110 transition" title="灰紫"></button>
+                    <button onclick="setMorandiTheme('muted-orange')" class="w-8 h-8 rounded-lg bg-orange-600 border-2 border-transparent hover:scale-110 transition" title="灰橙"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-12 h-12 bg-surface text-accent rounded-full shadow-lg border border-border-color/10 flex items-center justify-center cursor-pointer hover:rotate-90 transition duration-500">
+            <i class="ri-settings-3-line text-xl"></i>
+        </div>
+    </div>
+
+    <meta id="typewriter-data" data-texts="[&#34;Hello World.&#34;,&#34;Code is Poetry.&#34;,&#34;Stay Hungry, Stay Foolish.&#34;,&#34;正在构建数字世界...&#34;]">
+
+    <script>
+        
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('main-content');
+        const overlay = document.getElementById('sidebar-overlay');
+        
+        function toggleSidebar() {
+            const isHidden = sidebar.classList.contains('-translate-x-full');
+            if (isHidden) {
+                sidebar.classList.remove('-translate-x-full');
+                if (window.innerWidth >= 768) {
+                    mainContent.classList.add('md:pl-72');
+                } else {
+                    overlay.classList.remove('hidden');
+                }
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                if (window.innerWidth >= 768) {
+                    mainContent.classList.remove('md:pl-72');
+                } else {
+                    overlay.classList.add('hidden');
+                }
+            }
+        }
+
+        
+        let currentMode = 'auto';
+        let currentMorandiTheme = null;
+        
+        function setThemeMode(mode) {
+            currentMode = mode;
+            localStorage.setItem('theme-mode', mode);
+            applyTheme(mode);
+        }
+        
+        function applyTheme(mode) {
+            const root = document.documentElement;
+            
+            document.querySelectorAll('#btn-auto, #btn-light, #btn-dark').forEach(b => {
+                b.classList.remove('text-accent', 'bg-surface', 'shadow-sm');
+                b.classList.add('text-muted');
+            });
+            
+            const activeBtn = document.getElementById(`btn-${mode}`);
+            if(activeBtn) {
+                activeBtn.classList.remove('text-muted');
+                activeBtn.classList.add('text-accent', 'bg-surface', 'shadow-sm');
+            }
+            
+            
+            if (mode === 'auto') {
+                const hour = new Date().getHours();
+                const isNight = hour < 6 || hour >= 18;
+                root.setAttribute('data-mode', isNight ? 'dark' : 'light');
+            } else {
+                root.setAttribute('data-mode', mode);
+            }
+            
+            
+            if (currentMorandiTheme) {
+                root.setAttribute('data-theme', currentMorandiTheme);
+            }
+        }
+
+        
+        function setMorandiTheme(themeName) {
+            const root = document.documentElement;
+            currentMorandiTheme = themeName;
+            root.setAttribute('data-theme', themeName);
+            localStorage.setItem('morandi-theme', themeName);
+        }
+
+        
+        const textElement = document.getElementById('typewriter');
+        const dataElement = document.getElementById('typewriter-data');
+        let texts = ["Hello World."];
+
+        if (dataElement) {
+            try {
+                const raw = dataElement.getAttribute('data-texts');
+                if (raw) texts = JSON.parse(raw);
+            } catch(e) { console.error(e); }
+        }
+
+        let textIndex = 0, charIndex = 0, isDeleting = false;
+        function type() {
+            if (!texts.length) return;
+            const current = texts[textIndex];
+            
+            if (isDeleting) {
+                textElement.textContent = current.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                textElement.textContent = current.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let speed = isDeleting ? 50 : 100;
+            if (!isDeleting && charIndex === current.length) {
+                speed = 2000; isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+                speed = 500;
+            }
+            setTimeout(type, speed);
+        }
+
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            type();
+            const savedMode = localStorage.getItem('theme-mode') || 'auto';
+            const savedMorandiTheme = localStorage.getItem('morandi-theme');
+            
+            currentMode = savedMode;
+            if (savedMorandiTheme) currentMorandiTheme = savedMorandiTheme;
+            
+            
+            applyTheme(savedMode);
+            
+            if (savedMorandiTheme) setMorandiTheme(savedMorandiTheme);
+
+            
+            initSidebar();
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 768) {
+                    
+                    overlay.classList.add('hidden');
+                } else {
+                    
+                    if (!sidebar.classList.contains('-translate-x-full')) {
+                        sidebar.classList.add('-translate-x-full');
+                        mainContent.classList.remove('md:pl-72');
+                    }
+                }
+            });
+        });
+
+        
+        function initSidebar() {
+            if (window.innerWidth >= 768) {
+                
+                sidebar.classList.remove('-translate-x-full');
+                mainContent.classList.add('md:pl-72');
+            } else {
+                
+                sidebar.classList.add('-translate-x-full');
+                mainContent.classList.remove('md:pl-72');
+            }
+            overlay.classList.add('hidden');
+        }
+    </script>
+</body>
+</html>

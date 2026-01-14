@@ -1,0 +1,42 @@
+# data/sidebar.yml
+
+# 1. 个人档案
+profile:
+  name: "云间辞"
+  description: "code · 摄影 · 咸鱼"
+  avatar: "/images/head.jpg" # 确保图片存在
+
+# 2. 打字机短语 (支持多条轮播)
+typewriter:
+  texts:
+    - "Hello World."
+    - "Code is Poetry."
+    - "Stay Hungry, Stay Foolish."
+    - "正在构建数字世界..."
+
+# 3. 侧边栏菜单 (补全了你想要的所有页面)
+menu:
+  - name: "首页"
+    url: "/"
+    icon: "ri-home-4-line"
+  - name: "文章"
+    url: "/posts"
+    icon: "ri-article-line"
+  - name: "时间线"
+    url: "/archives"  # 需要你自己创建这个页面，或者暂填 /posts
+    icon: "ri-time-line"
+  - name: "关于"
+    url: "/about"
+    icon: "ri-user-3-line"
+
+# 4. 社交链接 (补全 Gitee, Bilibili)
+social_links:
+  - name: "GitHub"
+    url: "https://github.com/YOUR_ID"
+    icon: "ri-github-fill"
+  - name: "Gitee"
+    url: "https://gitee.com/YOUR_ID"
+    icon: "ri-code-box-fill" # Gitee 暂用这个图标替代
+  - name: "Bilibili"
+    url: "https://space.bilibili.com/YOUR_ID"
+    icon: "ri-bilibili-fill"

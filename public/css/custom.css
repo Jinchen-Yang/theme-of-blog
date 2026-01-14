@@ -1,0 +1,507 @@
+/* static/css/custom.css */
+
+:root {
+    /* === 深色模式 (默认) === */
+    /* 背景：极深灰/黑 */
+    --color-bg-deep: 30, 41, 59;
+    --color-bg: 51, 65, 85;
+    --color-bg-light: 71, 85, 105;
+    --color-bg-lighter: 100, 116, 139;          
+    /* 卡片表面：稍浅的黑 */
+    --color-surface-deep: 71, 85, 105;
+    --color-surface: 100, 116, 139;
+    --color-surface-light: 148, 163, 184;
+    --color-surface-lighter: 203, 213, 225;     
+    /* 主文字：灰白 (在黑底上清晰) */
+    --color-text: 243, 244, 246;     
+    /* 次要文字：中灰 (用于页脚、未选中菜单) */
+    --color-text-muted: 203, 213, 225;
+    --color-text-dim: 148, 163, 184;
+    --color-text-faint: 100, 116, 139; 
+    /* 边框：白色 (透明度在 Tailwind 里控制) */
+    --color-border: 203, 213, 225;   
+    /* 强调色：极客紫 */
+    --color-accent: 167, 139, 250;    
+}
+
+[data-theme="light"] {
+    /* === 浅色模式 === */
+    /* 背景：灰白 */
+    --color-bg: 243, 244, 246;       
+    /* 卡片表面：纯白 */
+    --color-surface: 255, 255, 255;  
+    /* 主文字：深灰 (在白底上清晰) */
+    --color-text: 17, 24, 39;        
+    /* 次要文字：稍浅的深灰 */
+    --color-text-muted: 55, 65, 81;  
+    /* 边框：黑色 (透明度在 Tailwind 里控制) */
+    --color-border: 0, 0, 0;         
+    /* 强调色保持不变，或者你也可以在这里改成深紫 */
+}
+
+/* 莫兰迪主题1：灰蓝 - 白天模式 */
+[data-theme="muted-blue"][data-mode="light"] {
+    --color-bg-deep: 51, 65, 85;
+    --color-bg: 71, 85, 105;
+    --color-bg-light: 100, 116, 139;
+    --color-bg-lighter: 148, 163, 184;
+    
+    --color-surface-deep: 100, 116, 139;
+    --color-surface: 148, 163, 184;
+    --color-surface-light: 203, 213, 225;
+    --color-surface-lighter: 226, 232, 240;
+    
+    --color-text: 248, 250, 252;
+    --color-text-muted: 226, 232, 240;
+    --color-text-dim: 203, 213, 225;
+    --color-text-faint: 148, 163, 184;
+    
+    --color-border: 226, 232, 240;
+    --color-accent: 129, 140, 248;
+}
+
+/* 莫兰迪主题1：灰蓝 - 夜间模式 */
+[data-theme="muted-blue"][data-mode="dark"] {
+    --color-bg-deep: 15, 23, 42;
+    --color-bg: 30, 41, 59;
+    --color-bg-light: 51, 65, 85;
+    --color-bg-lighter: 71, 85, 105;
+    
+    --color-surface-deep: 51, 65, 85;
+    --color-surface: 71, 85, 105;
+    --color-surface-light: 100, 116, 139;
+    --color-surface-lighter: 148, 163, 184;
+    
+    --color-text: 241, 245, 249;
+    --color-text-muted: 203, 213, 225;
+    --color-text-dim: 148, 163, 184;
+    --color-text-faint: 100, 116, 139;
+    
+    --color-border: 148, 163, 184;
+    --color-accent: 129, 140, 248;
+}
+
+/* 莫兰迪主题2：灰绿 - 白天模式 */
+[data-theme="muted-green"][data-mode="light"] {
+    --color-bg-deep: 30, 64, 51;
+    --color-bg: 45, 80, 65;
+    --color-bg-light: 74, 107, 92;
+    --color-bg-lighter: 110, 143, 128;
+    
+    --color-surface-deep: 74, 107, 92;
+    --color-surface: 110, 143, 128;
+    --color-surface-light: 167, 190, 180;
+    --color-surface-lighter: 220, 237, 230;
+    
+    --color-text: 248, 252, 248;
+    --color-text-muted: 220, 237, 230;
+    --color-text-dim: 167, 190, 180;
+    --color-text-faint: 110, 143, 128;
+    
+    --color-border: 220, 237, 230;
+    --color-accent: 56, 189, 248;
+}
+
+/* 莫兰迪主题2：灰绿 - 夜间模式 */
+[data-theme="muted-green"][data-mode="dark"] {
+    --color-bg-deep: 15, 39, 31;
+    --color-bg: 22, 58, 46;
+    --color-bg-light: 30, 64, 51;
+    --color-bg-lighter: 45, 80, 65;
+    
+    --color-surface-deep: 30, 64, 51;
+    --color-surface: 45, 80, 65;
+    --color-surface-light: 74, 107, 92;
+    --color-surface-lighter: 110, 143, 128;
+    
+    --color-text: 240, 253, 244;
+    --color-text-muted: 167, 190, 180;
+    --color-text-dim: 110, 143, 128;
+    --color-text-faint: 74, 107, 92;
+    
+    --color-border: 110, 143, 128;
+    --color-accent: 56, 189, 248;
+}
+
+/* 莫兰迪主题3：灰粉 - 白天模式 */
+[data-theme="muted-pink"][data-mode="light"] {
+    --color-bg-deep: 115, 76, 92;
+    --color-bg: 140, 101, 117;
+    --color-bg-light: 173, 134, 150;
+    --color-bg-lighter: 209, 180, 192;
+    
+    --color-surface-deep: 173, 134, 150;
+    --color-surface: 209, 180, 192;
+    --color-surface-light: 237, 214, 222;
+    --color-surface-lighter: 250, 240, 245;
+    
+    --color-text: 252, 248, 250;
+    --color-text-muted: 250, 240, 245;
+    --color-text-dim: 237, 214, 222;
+    --color-text-faint: 209, 180, 192;
+    
+    --color-border: 250, 240, 245;
+    --color-accent: 244, 114, 182;
+}
+
+/* 莫兰迪主题3：灰粉 - 夜间模式 */
+[data-theme="muted-pink"][data-mode="dark"] {
+    --color-bg-deep: 69, 46, 55;
+    --color-bg: 92, 63, 75;
+    --color-bg-light: 115, 76, 92;
+    --color-bg-lighter: 140, 101, 117;
+    
+    --color-surface-deep: 115, 76, 92;
+    --color-surface: 140, 101, 117;
+    --color-surface-light: 173, 134, 150;
+    --color-surface-lighter: 209, 180, 192;
+    
+    --color-text: 250, 240, 245;
+    --color-text-muted: 209, 180, 192;
+    --color-text-dim: 173, 134, 150;
+    --color-text-faint: 140, 101, 117;
+    
+    --color-border: 173, 134, 150;
+    --color-accent: 244, 114, 182;
+}
+
+/* 莫兰迪主题4：灰黄 - 白天模式 */
+[data-theme="muted-yellow"][data-mode="light"] {
+    --color-bg-deep: 120, 110, 80;
+    --color-bg: 145, 135, 105;
+    --color-bg-light: 175, 165, 135;
+    --color-bg-lighter: 210, 200, 170;
+    
+    --color-surface-deep: 175, 165, 135;
+    --color-surface: 210, 200, 170;
+    --color-surface-light: 235, 228, 205;
+    --color-surface-lighter: 250, 247, 238;
+    
+    --color-text: 252, 250, 242;
+    --color-text-muted: 250, 247, 238;
+    --color-text-dim: 235, 228, 205;
+    --color-text-faint: 210, 200, 170;
+    
+    --color-border: 250, 247, 238;
+    --color-accent: 251, 146, 60;
+}
+
+/* 莫兰迪主题4：灰黄 - 夜间模式 */
+[data-theme="muted-yellow"][data-mode="dark"] {
+    --color-bg-deep: 72, 66, 48;
+    --color-bg: 96, 90, 63;
+    --color-bg-light: 120, 110, 80;
+    --color-bg-lighter: 145, 135, 105;
+    
+    --color-surface-deep: 120, 110, 80;
+    --color-surface: 145, 135, 105;
+    --color-surface-light: 175, 165, 135;
+    --color-surface-lighter: 210, 200, 170;
+    
+    --color-text: 248, 245, 235;
+    --color-text-muted: 210, 200, 170;
+    --color-text-dim: 175, 165, 135;
+    --color-text-faint: 145, 135, 105;
+    
+    --color-border: 175, 165, 135;
+    --color-accent: 251, 146, 60;
+}
+
+/* 莫兰迪主题5：灰紫 - 白天模式 */
+[data-theme="muted-purple"][data-mode="light"] {
+    --color-bg-deep: 90, 80, 110;
+    --color-bg: 115, 105, 135;
+    --color-bg-light: 145, 135, 165;
+    --color-bg-lighter: 180, 172, 200;
+    
+    --color-surface-deep: 145, 135, 165;
+    --color-surface: 180, 172, 200;
+    --color-surface-light: 215, 208, 230;
+    --color-surface-lighter: 245, 242, 250;
+    
+    --color-text: 252, 250, 255;
+    --color-text-muted: 245, 242, 250;
+    --color-text-dim: 215, 208, 230;
+    --color-text-faint: 180, 172, 200;
+    
+    --color-border: 245, 242, 250;
+    --color-accent: 192, 132, 252;
+}
+
+/* 莫兰迪主题5：灰紫 - 夜间模式 */
+[data-theme="muted-purple"][data-mode="dark"] {
+    --color-bg-deep: 54, 48, 66;
+    --color-bg: 75, 68, 90;
+    --color-bg-light: 90, 80, 110;
+    --color-bg-lighter: 115, 105, 135;
+    
+    --color-surface-deep: 90, 80, 110;
+    --color-surface: 115, 105, 135;
+    --color-surface-light: 145, 135, 165;
+    --color-surface-lighter: 180, 172, 200;
+    
+    --color-text: 248, 245, 255;
+    --color-text-muted: 180, 172, 200;
+    --color-text-dim: 145, 135, 165;
+    --color-text-faint: 115, 105, 135;
+    
+    --color-border: 145, 135, 165;
+    --color-accent: 192, 132, 252;
+}
+
+/* 莫兰迪主题6：灰橙 - 白天模式 */
+[data-theme="muted-orange"][data-mode="light"] {
+    --color-bg-deep: 120, 95, 80;
+    --color-bg: 145, 120, 105;
+    --color-bg-light: 175, 150, 135;
+    --color-bg-lighter: 210, 185, 170;
+    
+    --color-surface-deep: 175, 150, 135;
+    --color-surface: 210, 185, 170;
+    --color-surface-light: 235, 218, 205;
+    --color-surface-lighter: 250, 242, 238;
+    
+    --color-text: 252, 248, 245;
+    --color-text-muted: 250, 242, 238;
+    --color-text-dim: 235, 218, 205;
+    --color-text-faint: 210, 185, 170;
+    
+    --color-border: 250, 242, 238;
+    --color-accent: 251, 146, 60;
+}
+
+/* 莫兰迪主题6：灰橙 - 夜间模式 */
+[data-theme="muted-orange"][data-mode="dark"] {
+    --color-bg-deep: 72, 57, 48;
+    --color-bg: 96, 78, 63;
+    --color-bg-light: 120, 95, 80;
+    --color-bg-lighter: 145, 120, 105;
+    
+    --color-surface-deep: 120, 95, 80;
+    --color-surface: 145, 120, 105;
+    --color-surface-light: 175, 150, 135;
+    --color-surface-lighter: 210, 185, 170;
+    
+    --color-text: 248, 244, 240;
+    --color-text-muted: 210, 185, 170;
+    --color-text-dim: 175, 150, 135;
+    --color-text-faint: 145, 120, 105;
+    
+    --color-border: 175, 150, 135;
+    --color-accent: 251, 146, 60;
+}
+
+body {
+    font-family: 'JetBrains Mono', monospace;
+    background-color: rgb(var(--color-bg));
+    color: rgb(var(--color-text));
+    transition: background-color 0.5s ease, color 0.3s ease;
+}
+
+/* 滚动条颜色也需要适配 */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: rgb(var(--color-bg)); }
+::-webkit-scrollbar-thumb { 
+    background: rgba(var(--color-accent), 0.3); 
+    border-radius: 3px; 
+}
+::-webkit-scrollbar-thumb:hover { 
+    background: rgb(var(--color-accent)); 
+}
+
+/* 玻璃拟态面板 */
+.glass-panel {
+    background: rgba(var(--color-surface), 0.8); /* 稍微不透明一点，保证白底下的字能看清 */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    /* 边框颜色现在是动态的了 */
+    border: 1px solid rgba(var(--color-border), 0.1);
+}
+
+/* 博客文章内容样式 - 确保高对比度和美观度 */
+.prose {
+    color: rgb(var(--color-text));
+    line-height: 1.75;
+    letter-spacing: 0.01em;
+}
+
+/* 标题样式优化 */
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+    color: rgb(var(--color-text));
+    font-weight: 700;
+    margin-top: 1.5em;
+    margin-bottom: 0.75em;
+    letter-spacing: -0.02em;
+}
+
+.prose h1 {
+    font-size: 2.25em;
+    line-height: 1.2;
+    padding-bottom: 0.5em;
+    border-bottom: 2px solid rgba(var(--color-border), 0.3);
+}
+
+.prose h2 {
+    font-size: 1.875em;
+    line-height: 1.3;
+}
+
+.prose h3 {
+    font-size: 1.5em;
+    line-height: 1.4;
+}
+
+.prose h4 {
+    font-size: 1.25em;
+    line-height: 1.5;
+}
+
+/* 段落样式优化 */
+.prose p {
+    color: rgb(var(--color-text));
+    line-height: 1.8;
+    margin-bottom: 1.25em;
+}
+
+/* 链接样式优化 */
+.prose a {
+    color: rgb(var(--color-accent));
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+    padding-bottom: 1px;
+}
+
+.prose a:hover {
+    border-bottom-color: rgb(var(--color-accent));
+    opacity: 0.9;
+}
+
+/* 强调文本样式 */
+.prose strong {
+    color: rgb(var(--color-text));
+    font-weight: 700;
+}
+
+/* 行内代码样式优化 */
+.prose code {
+    background-color: rgba(var(--color-surface-light), 0.6);
+    color: rgb(var(--color-accent));
+    padding: 0.25em 0.5em;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-weight: 500;
+    border: 1px solid rgba(var(--color-border), 0.15);
+}
+
+/* 代码块样式优化 */
+.prose pre {
+    background-color: rgba(var(--color-surface-deep), 0.7);
+    color: rgb(var(--color-text));
+    padding: 1.25em;
+    border-radius: 8px;
+    overflow-x: auto;
+    border: 1px solid rgba(var(--color-border), 0.2);
+    margin: 1.5em 0;
+    font-size: 0.9em;
+    line-height: 1.6;
+}
+
+.prose pre code {
+    background-color: transparent;
+    color: inherit;
+    padding: 0;
+    border: none;
+}
+
+/* 引用块样式优化 */
+.prose blockquote {
+    border-left: 4px solid rgb(var(--color-accent));
+    color: rgb(var(--color-text-muted));
+    padding: 1em 1.5em;
+    margin: 1.5em 0;
+    background-color: rgba(var(--color-surface-light), 0.3);
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+}
+
+/* 列表样式优化 */
+.prose ul,
+.prose ol {
+    color: rgb(var(--color-text));
+    margin: 1.25em 0;
+    padding-left: 1.75em;
+}
+
+.prose li {
+    color: rgb(var(--color-text));
+    margin-bottom: 0.5em;
+    line-height: 1.7;
+}
+
+.prose ul li::marker {
+    color: rgb(var(--color-accent));
+}
+
+.prose ol li::marker {
+    color: rgb(var(--color-accent));
+    font-weight: 600;
+}
+
+/* 表格样式优化 */
+.prose table {
+    width: 100%;
+    border-collapse: collapse;
+    color: rgb(var(--color-text));
+    margin: 1.5em 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.prose th,
+.prose td {
+    border: 1px solid rgba(var(--color-border), 0.25);
+    padding: 0.875em 1em;
+    text-align: left;
+}
+
+.prose th {
+    background-color: rgba(var(--color-surface-light), 0.7);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-size: 0.85em;
+}
+
+.prose tr:hover {
+    background-color: rgba(var(--color-surface-light), 0.3);
+}
+
+/* 图片样式优化 */
+.prose img {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    max-width: 100%;
+    height: auto;
+    margin: 1.5em 0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.prose img:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* 分隔线样式 */
+.prose hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(var(--color-border), 0.3), transparent);
+    margin: 2.5em 0;
+}

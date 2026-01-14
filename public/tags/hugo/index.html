@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-cn" class="h-full">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=7200&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hugo | Windows DIY 博客</title>
+    
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        
+                        'geek-purple': {
+                            400: '#a855f7', 
+                            500: '#8b5cf6',
+                        },
+                        
+                        'geek-bg': '#0d0d0d', 
+                    },
+                    
+                    typography: (theme) => ({
+                        DEFAULT: {
+                            css: {
+                                color: theme('colors.gray.300'),
+                                a: {
+                                    color: theme('colors.geek-purple.400'),
+                                    '&:hover': {
+                                        color: theme('colors.white'),
+                                    },
+                                },
+                                h1: { color: theme('colors.white') },
+                                h2: { color: theme('colors.white') },
+                                h3: { color: theme('colors.white') },
+                                strong: { color: theme('colors.white') },
+                                code: { color: theme('colors.geek-purple.400') },
+                                blockquote: { 
+                                    borderLeftColor: theme('colors.geek-purple.500'),
+                                    color: theme('colors.gray.400')
+                                },
+                            },
+                        },
+                    }),
+                }
+            }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/custom.css">
+    
+</head>
+<body class="bg-geek-bg text-gray-200 font-mono h-full overflow-hidden">
+
+    <div class="h-full flex flex-col">
+        <nav class="p-6 border-b border-gray-800 flex justify-between items-center flex-shrink-0 bg-geek-bg/95 backdrop-blur z-10">
+            <a href="/" class="text-xl font-bold text-geek-purple-400 hover:text-white transition duration-300">
+                Windows DIY 博客
+            </a>
+            <div class="space-x-4 text-sm">
+                <a href="/posts" class="hover:text-geek-purple-400 transition">Blog</a>
+                <a href="/about" class="hover:text-geek-purple-400 transition">About</a>
+            </div>
+        </nav>
+
+        <div class="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar">
+            <main class="container mx-auto px-4 py-8 max-w-4xl">
+                
+<div class="space-y-12">
+    <h1 class="text-3xl font-bold border-l-4 border-purple-500 pl-4">Latest Posts</h1>
+
+    
+    <div class="group">
+        <a href="/posts/hugo-github-actions-deploy-guide/" class="block p-6 rounded-xl border border-gray-800 hover:border-purple-500 hover:bg-gray-800/50 transition duration-300">
+            <h2 class="text-2xl font-bold text-gray-100 group-hover:text-purple-400 mb-2">
+                告别手动上传！踩坑一下午，终于搞定了 Hugo &#43; GitHub Actions 全自动部署
+            </h2>
+            <div class="text-gray-500 text-sm mb-4">
+                Jan 14, 2026
+            </div>
+            <p class="text-gray-400 line-clamp-3">
+                <h1 id="告别手动上传踩坑一下午终于搞定了-hugo--github-actions-全自动部署">告别手动上传！踩坑一下午，终于搞定了 Hugo + GitHub Actions 全自动部署</h1>
+<h2 id="前言为什么我要折腾这个">前言：为什么我要折腾这个？</h2>
+<p>作为一个追求效率（其实是懒）的技术爱好者，我实在受够了每次写完博客都要手动生成、连接服务器、拖拽上传文件的繁琐流程。</p>
+<p>理想中的博客发布流程应该是这样的：</p>
+<ol>
+<li>在本地 VS Code 里写好文章。</li>
+<li>敲一行 <code>git push</code>。</li>
+<li><strong>喝口水，网站自动更新。</strong></li>
+</ol>
+<p>为了实现这个，我决定搭建一套 <strong>Hugo + GitHub Actions + 腾讯云</strong> 的自动化流水线。本以为半小时搞定，结果因为 SSH 密钥和 Linux 权限问题，硬是踩了几个小时的坑。</p>
+<p>为了防止下次重装服务器时失忆，特此记录全流程，尤其是那些让我头秃的报错。</p>
+<hr>
+<h2 id="-架构速览">🛠️ 架构速览</h2>
+<ul>
+<li><strong>本地环境</strong>：Windows + VS Code (配置了透明背景与极客工作区)</li>
+<li><strong>静态生成器</strong>：Hugo</li>
+<li><strong>代码仓库</strong>：GitHub (私有仓库)</li>
+<li><strong>服务器</strong>：腾讯云轻量应用服务器 (Debian/Ubuntu)</li>
+<li><strong>Web 服务</strong>：Nginx</li>
+<li><strong>自动化工具</strong>：GitHub Actions</li>
+</ul>
+<hr>
+<h2 id="-踩坑实录那些阻挡我自动化的大boss">🚧 踩坑实录：那些阻挡我自动化的“大Boss”</h2>
+<h3 id="-关卡一git-push-时的拒绝访问">🛑 关卡一：Git Push 时的“拒绝访问”</h3>
+<p>刚初始化完仓库，准备推送到 GitHub 时，终端直接甩给我一个 <code>failed to push some refs</code>。</p>
+<p><strong>原因分析</strong>：
+这是新手经典问题。我在 GitHub 建仓库时手滑勾选了“创建 README”，导致远程仓库里有一个本地没有的文件。Git 觉得这俩历史线对不上，拒绝合并。</p>
+<p><strong>💡 解决方案</strong>：
+简单粗暴，直接强制把本地作为唯一真理：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 关联远程仓库</span>
+</span></span><span style="display:flex;"><span>git remote add origin <span style="color:#f92672">[</span>https://github.com/你的用户名/你的仓库.git<span style="color:#f92672">](</span>https://github.com/你的用户名/你的仓库.git<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 强行覆盖远程（仅限第一次初始化时使用！）</span>
+</span></span><span style="display:flex;"><span>git push -u origin main -f
+</span></span></code></pre></div><hr>
+<h3 id="-关卡二ssh-密钥的密码陷阱">🛑 关卡二：SSH 密钥的“密码陷阱”</h3>
+<p>GitHub Actions 需要一把“钥匙”才能进入我的服务器。我兴冲冲地在本地生成了密钥填进去，结果 Actions 日志直接报错：
+<code>ssh: handshake failed: ssh: unable to authenticate</code></p>
+            </p>
+            <div class="mt-4 text-purple-400 text-sm font-mono group-hover:translate-x-2 transition-transform">
+                Read more ->
+            </div>
+        </a>
+    </div>
+    
+</div>
+
+            </main>
+        </div>
+
+        <footer class="p-6 text-center text-gray-600 text-xs border-t border-gray-800 flex-shrink-0 bg-geek-bg">
+            &copy; 2026 Windows DIY 博客. <span class="hidden sm:inline">Built with Hugo & Love.</span>
+        </footer>
+    </div>
+
+</body>
+</html>

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="{{ or site.Language.LanguageCode site.Language.Lang }}" class="h-full">
+<html lang="zh-cn" class="h-full">
 <head>
+	<meta name="generator" content="Hugo 0.154.5"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=3104&amp;path=livereload" data-no-instant defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}</title>
+    <title>Windows DIY 博客</title>
     
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <script>
@@ -12,15 +13,15 @@
             theme: {
                 extend: {
                     colors: {
-                        // 关联 CSS 变量 (新增了 muted 和 border)
+                        
                         bg: 'rgb(var(--color-bg) / <alpha-value>)',
                         surface: 'rgb(var(--color-surface) / <alpha-value>)',
                         text: 'rgb(var(--color-text) / <alpha-value>)',
-                        'muted': 'rgb(var(--color-text-muted) / <alpha-value>)', // 次要文字
-                        'border-color': 'rgb(var(--color-border) / <alpha-value>)', // 动态边框
+                        'muted': 'rgb(var(--color-text-muted) / <alpha-value>)', 
+                        'border-color': 'rgb(var(--color-border) / <alpha-value>)', 
                         accent: 'rgb(var(--color-accent) / <alpha-value>)',
                     },
-                    // 配置文章正文的颜色，让它自动跟随我们的变量
+                    
                     typography: ({ theme }) => ({
                         DEFAULT: {
                             css: {
@@ -55,10 +56,10 @@
 
                     <div class="text-center mt-4 mb-8 relative z-10">
                         <div class="w-24 h-24 mx-auto rounded-full border-2 border-accent p-1 mb-4 shadow-[0_0_15px_rgba(var(--color-accent),0.5)] transition-shadow duration-300">
-                            <img src="{{ site.Data.sidebar.profile.avatar | default "/images/avatar.png" }}" alt="Avatar" class="w-full h-full rounded-full object-cover">
+                            <img src="/images/head.jpg" alt="Avatar" class="w-full h-full rounded-full object-cover">
                         </div>
-                        <h2 class="text-xl font-bold text-text">{{ site.Data.sidebar.profile.name | default site.Title }}</h2>
-                        <p class="text-muted text-sm mt-1">{{ site.Data.sidebar.profile.description }}</p>
+                        <h2 class="text-xl font-bold text-text">云间辞</h2>
+                        <p class="text-muted text-sm mt-1">code · 摄影 · 咸鱼</p>
                     </div>
 
                     <div class="bg-black/10 dark:bg-black/30 rounded-lg p-3 mb-8 border border-border-color/10 font-mono">
@@ -68,20 +69,43 @@
                     </div>
 
                     <nav class="flex-1 space-y-2">
-                        {{ range site.Data.sidebar.menu }}
-                        <a href="{{ .url }}" class="flex items-center p-3 rounded-lg hover:bg-accent/10 hover:text-accent text-muted transition group">
-                            <i class="{{ .icon }} mr-3 text-lg"></i>
-                            <span class="group-hover:translate-x-1 transition-transform">{{ .name }}</span>
+                        
+                        <a href="/" class="flex items-center p-3 rounded-lg hover:bg-accent/10 hover:text-accent text-muted transition group">
+                            <i class="ri-home-4-line mr-3 text-lg"></i>
+                            <span class="group-hover:translate-x-1 transition-transform">首页</span>
                         </a>
-                        {{ end }}
+                        
+                        <a href="/posts" class="flex items-center p-3 rounded-lg hover:bg-accent/10 hover:text-accent text-muted transition group">
+                            <i class="ri-article-line mr-3 text-lg"></i>
+                            <span class="group-hover:translate-x-1 transition-transform">文章</span>
+                        </a>
+                        
+                        <a href="/archives" class="flex items-center p-3 rounded-lg hover:bg-accent/10 hover:text-accent text-muted transition group">
+                            <i class="ri-time-line mr-3 text-lg"></i>
+                            <span class="group-hover:translate-x-1 transition-transform">时间线</span>
+                        </a>
+                        
+                        <a href="/about" class="flex items-center p-3 rounded-lg hover:bg-accent/10 hover:text-accent text-muted transition group">
+                            <i class="ri-user-3-line mr-3 text-lg"></i>
+                            <span class="group-hover:translate-x-1 transition-transform">关于</span>
+                        </a>
+                        
                     </nav>
 
                     <div class="flex justify-center space-x-6 mt-auto pt-6 border-t border-border-color/10">
-                        {{ range site.Data.sidebar.social_links }}
-                        <a href="{{ .url }}" target="_blank" class="text-muted hover:text-accent hover:scale-110 transition">
-                            <i class="{{ .icon }} text-2xl"></i>
+                        
+                        <a href="https://github.com/YOUR_ID" target="_blank" class="text-muted hover:text-accent hover:scale-110 transition">
+                            <i class="ri-github-fill text-2xl"></i>
                         </a>
-                        {{ end }}
+                        
+                        <a href="https://gitee.com/YOUR_ID" target="_blank" class="text-muted hover:text-accent hover:scale-110 transition">
+                            <i class="ri-code-box-fill text-2xl"></i>
+                        </a>
+                        
+                        <a href="https://space.bilibili.com/YOUR_ID" target="_blank" class="text-muted hover:text-accent hover:scale-110 transition">
+                            <i class="ri-bilibili-fill text-2xl"></i>
+                        </a>
+                        
                     </div>
                 </div>
             </div>
@@ -97,16 +121,41 @@
                 </button>
 
                 <div class="text-sm font-bold text-accent tracking-widest">
-                    {{ if .IsHome }} DASHBOARD {{ else }} {{ .Title | upper }} {{ end }}
+                     DASHBOARD 
                 </div>
             </header>
 
             <main class="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-8 custom-scrollbar">
                 <div class="max-w-4xl mx-auto animate-fade-in prose prose-lg">
-                    {{ block "main" . }}{{ end }}
+                    
+<div class="space-y-12">
+    <h1 class="text-3xl font-bold border-l-4 border-accent pl-4 text-text">Latest Posts</h1>
+
+    
+    <div class="group">
+        <a href="/posts/" class="block p-6 rounded-xl border border-border-color/20 hover:border-accent hover:bg-surface-light/30 transition duration-300">
+            <h2 class="text-2xl font-bold text-text group-hover:text-accent mb-2">
+                Posts
+            </h2>
+            <div class="text-text-muted text-sm mb-4">
+                Jan 14, 2026
+            </div>
+                <p class="text-text-dim line-clamp-3 overflow-hidden text-sm leading-relaxed">
+    
+        
+    
+</p>
+            <div class="mt-4 text-accent text-sm font-mono group-hover:translate-x-2 transition-transform">
+                Read more ->
+            </div>
+        </a>
+    </div>
+    
+</div>
+
                 </div>
                 <footer class="text-center text-muted text-xs py-8 mt-8 border-t border-border-color/10">
-                    &copy; {{ now.Year }} {{ site.Title }}. Power by Hugo.
+                    &copy; 2026 Windows DIY 博客. Power by Hugo.
                 </footer>
             </main>
         </div>
@@ -144,10 +193,10 @@
         </div>
     </div>
 
-    <meta id="typewriter-data" data-texts="{{ site.Data.sidebar.typewriter.texts | jsonify }}">
+    <meta id="typewriter-data" data-texts="[&#34;Hello World.&#34;,&#34;Code is Poetry.&#34;,&#34;Stay Hungry, Stay Foolish.&#34;,&#34;正在构建数字世界...&#34;]">
 
     <script>
-        // --- A. 侧边栏引擎 ---
+        
         const sidebar = document.getElementById('sidebar');
         const mainContent = document.getElementById('main-content');
         const overlay = document.getElementById('sidebar-overlay');
@@ -171,7 +220,7 @@
             }
         }
 
-        // --- B. 主题引擎 ---
+        
         let currentMode = 'auto';
         let currentMorandiTheme = null;
         
@@ -183,19 +232,19 @@
         
         function applyTheme(mode) {
             const root = document.documentElement;
-            // 重置按钮样式
+            
             document.querySelectorAll('#btn-auto, #btn-light, #btn-dark').forEach(b => {
                 b.classList.remove('text-accent', 'bg-surface', 'shadow-sm');
                 b.classList.add('text-muted');
             });
-            // 激活按钮样式
+            
             const activeBtn = document.getElementById(`btn-${mode}`);
             if(activeBtn) {
                 activeBtn.classList.remove('text-muted');
                 activeBtn.classList.add('text-accent', 'bg-surface', 'shadow-sm');
             }
             
-            // 设置模式属性
+            
             if (mode === 'auto') {
                 const hour = new Date().getHours();
                 const isNight = hour < 6 || hour >= 18;
@@ -204,13 +253,13 @@
                 root.setAttribute('data-mode', mode);
             }
             
-            // 如果有莫兰迪主题，重新应用以更新模式
+            
             if (currentMorandiTheme) {
                 root.setAttribute('data-theme', currentMorandiTheme);
             }
         }
 
-        // --- C. 莫兰迪主题引擎 ---
+        
         function setMorandiTheme(themeName) {
             const root = document.documentElement;
             currentMorandiTheme = themeName;
@@ -218,7 +267,7 @@
             localStorage.setItem('morandi-theme', themeName);
         }
 
-        // --- D. 打字机引擎 ---
+        
         const textElement = document.getElementById('typewriter');
         const dataElement = document.getElementById('typewriter-data');
         let texts = ["Hello World."];
@@ -254,7 +303,7 @@
             setTimeout(type, speed);
         }
 
-        // --- E. 初始化 ---
+        
         document.addEventListener('DOMContentLoaded', () => {
             type();
             const savedMode = localStorage.getItem('theme-mode') || 'auto';
@@ -263,20 +312,20 @@
             currentMode = savedMode;
             if (savedMorandiTheme) currentMorandiTheme = savedMorandiTheme;
             
-            // 先应用模式
+            
             applyTheme(savedMode);
-            // 再应用莫兰迪主题（如果有）
+            
             if (savedMorandiTheme) setMorandiTheme(savedMorandiTheme);
 
-            // 初始化侧边栏状态：电脑端默认展示，手机端默认关闭
+            
             initSidebar();
 
             window.addEventListener('resize', () => {
                 if (window.innerWidth >= 768) {
-                    // 切换到电脑端：隐藏遮罩层
+                    
                     overlay.classList.add('hidden');
                 } else {
-                    // 切换到手机端：隐藏侧边栏
+                    
                     if (!sidebar.classList.contains('-translate-x-full')) {
                         sidebar.classList.add('-translate-x-full');
                         mainContent.classList.remove('md:pl-72');
@@ -285,14 +334,14 @@
             });
         });
 
-        // 初始化侧边栏状态
+        
         function initSidebar() {
             if (window.innerWidth >= 768) {
-                // 电脑端：显示侧边栏
+                
                 sidebar.classList.remove('-translate-x-full');
                 mainContent.classList.add('md:pl-72');
             } else {
-                // 手机端：隐藏侧边栏
+                
                 sidebar.classList.add('-translate-x-full');
                 mainContent.classList.remove('md:pl-72');
             }

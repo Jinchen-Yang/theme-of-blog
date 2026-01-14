@@ -2,3 +2,35 @@ baseURL = 'http://1.15.73.32/'
 languageCode = 'zh-cn'
 title = 'Windows DIY 博客'
 theme = 'my-diy-theme'
+
+# 侧边栏配置
+[params.sidebar]
+  # 个人信息
+  [params.sidebar.profile]
+    avatar = "/images/avatar.jpg"
+    description = "Full Stack Developer"
+  
+  # 社交链接
+  [[params.sidebar.social_links]]
+    name = "GitHub"
+    url = "https://github.com/YOUR_GITHUB_ID"
+    icon = "ri-github-fill"
+    color = "white"
+  
+  [[params.sidebar.social_links]]
+    name = "Bilibili"
+    url = "https://space.bilibili.com/YOUR_BILI_ID"
+    icon = "ri-bilibili-fill"
+    color = "pink-400"
+  
+  [[params.sidebar.social_links]]
+    name = "Email"
+    url = "mailto:your@email.com"
+    icon = "ri-mail-send-fill"
+    color = "geek-purple-400"
+  
+  # 打字机效果文本
+  [params.sidebar.typewriter]
+    texts = ["Hello World.", "Coding Life.", "Stay Hungry."]
+
+    
