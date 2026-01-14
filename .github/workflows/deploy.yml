@@ -1,0 +1,32 @@
+name: Deploy Hugo to Tencent Cloud
+
+on:
+  push:
+    branches:
+      - main  # 只有推送到 main 分支时才触发
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. 拉取代码
+        uses: actions/checkout@v4
+
+      - name: 2. 安装 Hugo (Extended版)
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
+          extended: true
+
+      - name: 3. 编译生成静态文件
+        run: hugo --minify
+
+      - name: 4. 发送到腾讯云服务器
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}     # 记得在 GitHub Secrets 里配好这个
+          username: bupt_dev                     # 如果你没配 SERVER_USER，直接写 root 也行
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "public/*"
+          target: "/root/blog/html/"         # 对应 Docker 挂载的目录
+          strip_components: 1                # 去掉 public 这一层壳，直接把内容倒进去

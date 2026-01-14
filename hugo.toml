@@ -1,0 +1,4 @@
+baseURL = 'http://1.15.73.32/'
+languageCode = 'zh-cn'
+title = 'Windows DIY 博客'
+theme = 'my-diy-theme'
