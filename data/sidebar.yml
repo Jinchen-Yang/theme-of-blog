@@ -32,11 +32,11 @@ menu:
 # 4. 社交链接 (补全 Gitee, Bilibili)
 social_links:
   - name: "GitHub"
-    url: "https://github.com/YOUR_ID"
+    url: "https://github.com/Jinchen-Yang?tab=repositories"
     icon: "ri-github-fill"
   - name: "Gitee"
-    url: "https://gitee.com/YOUR_ID"
-    icon: "ri-code-box-fill" # Gitee 暂用这个图标替代
+    url: "https://gitee.com/yanjingc"
+    icon: "ri-gitlab-fill" # Gitee 使用GitLab图标替代
   - name: "Bilibili"
-    url: "https://space.bilibili.com/YOUR_ID"
+    url: "https://space.bilibili.com/493333914"
     icon: "ri-bilibili-fill"

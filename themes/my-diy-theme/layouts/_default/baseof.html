@@ -2,7 +2,7 @@
 <html lang="{{ or site.Language.LanguageCode site.Language.Lang }}" class="h-full">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, minimum-scale=0.5, maximum-scale=2.0">
     <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}</title>
     
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
@@ -69,9 +69,9 @@
 
                     <nav class="flex-1 space-y-2">
                         {{ range site.Data.sidebar.menu }}
-                        <a href="{{ .url }}" class="flex items-center p-3 rounded-lg hover:bg-accent/10 hover:text-accent text-muted transition group">
-                            <i class="{{ .icon }} mr-3 text-lg"></i>
-                            <span class="group-hover:translate-x-1 transition-transform">{{ .name }}</span>
+                        <a href="{{ .url }}" class="nav-item flex items-center p-3 rounded-lg text-muted transition hover:bg-accent/10 hover:text-accent hover:shadow-sm hover:scale-[1.02]">
+                            <i class="{{ .icon }} mr-3 text-lg transition-transform group-hover:scale-110"></i>
+                            <span class="transition-transform group-hover:translate-x-1">{{ .name }}</span>
                         </a>
                         {{ end }}
                     </nav>
@@ -91,57 +91,73 @@
             
             <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden backdrop-blur-sm transition-opacity" onclick="toggleSidebar()"></div>
 
-            <header class="flex items-center justify-between px-6 py-4 glass-panel border-b border-border-color/10 rounded-none z-30 sticky top-0">
+            <header class="flex items-center justify-between px-6 py-4 bg-surface/95 backdrop-blur-md border border-border-color/20 rounded-xl z-30 sticky top-0 mx-4 mt-4 shadow-lg">
                 <button onclick="toggleSidebar()" class="text-muted hover:text-accent p-2 rounded-md transition">
                     <i class="ri-menu-2-fill text-xl"></i>
                 </button>
 
-                <div class="text-sm font-bold text-accent tracking-widest">
+                <nav class="hidden md:flex items-center">
+                    <a href="/" class="nav-item px-5 py-2 text-muted hover:text-accent transition text-sm font-medium hover:scale-105 hover:bg-accent/5 rounded-lg {{ if .IsHome }}text-accent bg-accent/10{{ end }}">首页</a>
+                    <a href="/posts/" class="nav-item px-5 py-2 text-muted hover:text-accent transition text-sm font-medium hover:scale-105 hover:bg-accent/5 rounded-lg {{ if eq .Kind "section" }}text-accent bg-accent/10{{ end }}">文章</a>
+                    <a href="/timeline/" class="nav-item px-5 py-2 text-muted hover:text-accent transition text-sm font-medium hover:scale-105 hover:bg-accent/5 rounded-lg">时间线</a>
+                    <a href="/about/" class="nav-item px-5 py-2 text-muted hover:text-accent transition text-sm font-medium hover:scale-105 hover:bg-accent/5 rounded-lg">关于</a>
+                </nav>
+
+                <div class="text-sm font-bold text-accent tracking-widest hidden md:block">
                     {{ if .IsHome }} DASHBOARD {{ else }} {{ .Title | upper }} {{ end }}
                 </div>
             </header>
 
             <main class="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-8 custom-scrollbar">
-                <div class="max-w-4xl mx-auto animate-fade-in prose prose-lg">
+                <div class="max-w-4xl mx-auto animate-fade-in prose prose-lg pb-20">
                     {{ block "main" . }}{{ end }}
                 </div>
-                <footer class="text-center text-muted text-xs py-8 mt-8 border-t border-border-color/10">
-                    &copy; {{ now.Year }} {{ site.Title }}. Power by Hugo.
-                </footer>
             </main>
+            <footer class="text-center text-muted text-xs py-4 border-t border-border-color/10">
+                &copy; {{ now.Year }} Power by Hugo. Theme from 云间辞.
+            </footer>
         </div>
 
     </div>
 
-    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end space-y-4 group">
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
         
-        <div id="settings-menu" class="bg-surface border border-border-color/10 p-4 rounded-xl shadow-2xl translate-y-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition duration-300 mb-2">
+        <div id="settings-menu" class="bg-surface/95 backdrop-blur-md border border-border-color/20 p-5 rounded-2xl shadow-2xl translate-y-4 opacity-0 pointer-events-none transition-all duration-300 ease-out mb-2 scale-95">
             
             <div class="mb-4">
                 <p class="text-xs text-muted mb-2 font-bold">MODE</p>
-                <div class="flex bg-bg rounded-lg p-1 border border-border-color/10">
-                    <button onclick="setThemeMode('auto')" class="flex-1 px-3 py-1 text-xs rounded-md hover:bg-surface text-muted transition" id="btn-auto">Auto</button>
-                    <button onclick="setThemeMode('light')" class="flex-1 px-3 py-1 text-xs rounded-md hover:bg-surface text-muted transition" id="btn-light">☀</button>
-                    <button onclick="setThemeMode('dark')" class="flex-1 px-3 py-1 text-xs rounded-md hover:bg-surface text-muted transition" id="btn-dark">🌙</button>
+                <div class="flex bg-bg/80 backdrop-blur-sm rounded-xl p-1 border border-border-color/20">
+                    <button onclick="setThemeMode('auto')" class="flex-1 px-3 py-2 text-xs rounded-lg hover:bg-surface/80 hover:scale-105 text-muted transition-all duration-200" id="btn-auto">Auto</button>
+                    <button onclick="setThemeMode('light')" class="flex-1 px-3 py-2 text-xs rounded-lg hover:bg-surface/80 hover:scale-105 text-muted transition-all duration-200" id="btn-light">☀</button>
+                    <button onclick="setThemeMode('dark')" class="flex-1 px-3 py-2 text-xs rounded-lg hover:bg-surface/80 hover:scale-105 text-muted transition-all duration-200" id="btn-dark">🌙</button>
                 </div>
             </div>
 
             <div>
                 <p class="text-xs text-muted mb-2 font-bold">MORANDI THEME</p>
-                <div class="grid grid-cols-3 gap-2">
-                    <button onclick="setMorandiTheme('muted-blue')" class="w-8 h-8 rounded-lg bg-slate-600 border-2 border-transparent hover:scale-110 transition" title="灰蓝"></button>
-                    <button onclick="setMorandiTheme('muted-green')" class="w-8 h-8 rounded-lg bg-emerald-700 border-2 border-transparent hover:scale-110 transition" title="灰绿"></button>
-                    <button onclick="setMorandiTheme('muted-pink')" class="w-8 h-8 rounded-lg bg-pink-600 border-2 border-transparent hover:scale-110 transition" title="灰粉"></button>
-                    <button onclick="setMorandiTheme('muted-yellow')" class="w-8 h-8 rounded-lg bg-amber-600 border-2 border-transparent hover:scale-110 transition" title="灰黄"></button>
-                    <button onclick="setMorandiTheme('muted-purple')" class="w-8 h-8 rounded-lg bg-violet-700 border-2 border-transparent hover:scale-110 transition" title="灰紫"></button>
-                    <button onclick="setMorandiTheme('muted-orange')" class="w-8 h-8 rounded-lg bg-orange-600 border-2 border-transparent hover:scale-110 transition" title="灰橙"></button>
+                <div class="grid grid-cols-3 gap-3">
+                    <button onclick="setMorandiTheme('muted-blue')" class="w-9 h-9 rounded-xl bg-slate-600 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200" title="灰蓝"></button>
+                    <button onclick="setMorandiTheme('muted-green')" class="w-9 h-9 rounded-xl bg-emerald-700 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200" title="灰绿"></button>
+                    <button onclick="setMorandiTheme('muted-pink')" class="w-9 h-9 rounded-xl bg-pink-600 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200" title="灰粉"></button>
+                    <button onclick="setMorandiTheme('muted-yellow')" class="w-9 h-9 rounded-xl bg-amber-600 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200" title="灰黄"></button>
+                    <button onclick="setMorandiTheme('muted-purple')" class="w-9 h-9 rounded-xl bg-violet-700 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200" title="灰紫"></button>
+                    <button onclick="setMorandiTheme('muted-orange')" class="w-9 h-9 rounded-xl bg-orange-600 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200" title="灰橙"></button>
+                </div>
+            </div>
+
+            <div class="md:hidden">
+                <p class="text-xs text-muted mb-2 font-bold">ZOOM</p>
+                <div class="flex items-center justify-between bg-bg/80 backdrop-blur-sm rounded-xl p-1 border border-border-color/20">
+                    <button onclick="adjustZoom(-0.1)" class="flex-1 px-3 py-2 text-xs rounded-lg hover:bg-surface/80 hover:scale-105 text-muted transition-all duration-200">-</button>
+                    <span id="zoom-level" class="text-xs text-text-muted px-2 font-mono">80%</span>
+                    <button onclick="adjustZoom(0.1)" class="flex-1 px-3 py-2 text-xs rounded-lg hover:bg-surface/80 hover:scale-105 text-muted transition-all duration-200">+</button>
                 </div>
             </div>
         </div>
 
-        <div class="w-12 h-12 bg-surface text-accent rounded-full shadow-lg border border-border-color/10 flex items-center justify-center cursor-pointer hover:rotate-90 transition duration-500">
-            <i class="ri-settings-3-line text-xl"></i>
-        </div>
+        <button id="settings-btn" class="w-14 h-14 bg-surface/95 backdrop-blur-md text-accent rounded-2xl shadow-xl border border-border-color/20 flex items-center justify-center cursor-pointer hover:rotate-180 hover:scale-110 hover:shadow-2xl hover:shadow-accent/20 transition-all duration-500 ease-out" onclick="toggleSettingsMenu()">
+            <i class="ri-settings-3-line text-2xl"></i>
+        </button>
     </div>
 
     <meta id="typewriter-data" data-texts="{{ site.Data.sidebar.typewriter.texts | jsonify }}">
@@ -151,6 +167,27 @@
         const sidebar = document.getElementById('sidebar');
         const mainContent = document.getElementById('main-content');
         const overlay = document.getElementById('sidebar-overlay');
+        const settingsMenu = document.getElementById('settings-menu');
+        const settingsBtn = document.getElementById('settings-btn');
+        let settingsMenuOpen = false;
+
+        function toggleSettingsMenu() {
+            settingsMenuOpen = !settingsMenuOpen;
+            if (settingsMenuOpen) {
+                settingsMenu.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4', 'scale-95');
+                settingsMenu.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0', 'scale-100');
+            } else {
+                settingsMenu.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4', 'scale-95');
+                settingsMenu.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0', 'scale-100');
+            }
+        }
+
+        // 点击外部关闭设置菜单
+        document.addEventListener('click', (e) => {
+            if (settingsMenuOpen && !settingsMenu.contains(e.target) && !settingsBtn.contains(e.target)) {
+                toggleSettingsMenu();
+            }
+        });
         
         function toggleSidebar() {
             const isHidden = sidebar.classList.contains('-translate-x-full');
@@ -200,6 +237,17 @@
                 const hour = new Date().getHours();
                 const isNight = hour < 6 || hour >= 18;
                 root.setAttribute('data-mode', isNight ? 'dark' : 'light');
+                
+                // 自动模式下，根据时间设置默认莫兰迪主题
+                if (!currentMorandiTheme) {
+                    if (isNight) {
+                        // 夜间：灰黑色主题
+                        setMorandiTheme('muted-purple');
+                    } else {
+                        // 白天：灰白色主题
+                        setMorandiTheme('muted-blue');
+                    }
+                }
             } else {
                 root.setAttribute('data-mode', mode);
             }
@@ -216,6 +264,27 @@
             currentMorandiTheme = themeName;
             root.setAttribute('data-theme', themeName);
             localStorage.setItem('morandi-theme', themeName);
+        }
+
+        // --- D. 缩放控制引擎 ---
+        let currentZoom = 0.8;
+        function adjustZoom(delta) {
+            currentZoom = Math.max(0.5, Math.min(2.0, currentZoom + delta));
+            currentZoom = Math.round(currentZoom * 10) / 10; // 保留一位小数
+            
+            const viewport = document.querySelector('meta[name=viewport]');
+            if (viewport) {
+                viewport.setAttribute('content', `width=device-width, initial-scale=${currentZoom}, minimum-scale=0.5, maximum-scale=2.0`);
+            }
+            
+            // 更新显示
+            const zoomLevel = document.getElementById('zoom-level');
+            if (zoomLevel) {
+                zoomLevel.textContent = Math.round(currentZoom * 100) + '%';
+            }
+            
+            // 保存设置
+            localStorage.setItem('mobile-scale', currentZoom.toString());
         }
 
         // --- D. 打字机引擎 ---
@@ -270,6 +339,23 @@
 
             // 初始化侧边栏状态：电脑端默认展示，手机端默认关闭
             initSidebar();
+
+            // 手机端缩放控制
+            if (window.innerWidth < 768) {
+                const viewport = document.querySelector('meta[name=viewport]');
+                if (viewport) {
+                    const savedScale = localStorage.getItem('mobile-scale');
+                    const initialScale = savedScale ? parseFloat(savedScale) : 0.8;
+                    currentZoom = initialScale;
+                    viewport.setAttribute('content', `width=device-width, initial-scale=${initialScale}, minimum-scale=0.5, maximum-scale=2.0`);
+                    
+                    // 更新缩放显示
+                    const zoomLevel = document.getElementById('zoom-level');
+                    if (zoomLevel) {
+                        zoomLevel.textContent = Math.round(currentZoom * 100) + '%';
+                    }
+                }
+            }
 
             window.addEventListener('resize', () => {
                 if (window.innerWidth >= 768) {

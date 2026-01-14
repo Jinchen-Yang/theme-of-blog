@@ -1,31 +1,36 @@
 {{ define "main" }}
 <div class="space-y-8">
-    {{ range .Pages }}
+    
+    {{ range where .Site.RegularPages "Section" "posts" }}
     <article class="group">
-        <a href="{{ .RelPermalink }}" class="block bg-surface/95 backdrop-blur-md border border-border-color/20 rounded-xl transition-all duration-300 hover:border-accent/50 hover:shadow-xl hover:shadow-accent/10 hover:-translate-y-1">
+        <a href="{{ .RelPermalink }}" class="block bg-surface/30 border border-border-color/20 rounded-lg transition-all duration-300 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/5 hover:-translate-y-1">
             <div class="p-6">
                 <div class="flex items-start justify-between gap-4">
                     <div class="flex-1 min-w-0">
                         <h2 class="text-xl font-bold text-text group-hover:text-accent mb-3 transition-colors">
                             {{ .Title }}
                         </h2>
+                        
                         <div class="flex items-center gap-3 text-sm text-muted mb-4">
                             <i class="ri-calendar-line"></i>
                             <span>{{ .Date.Format "2006-01-02" }}</span>
+                            
                             {{ if .Params.categories }}
                             <span class="text-border-color/40">|</span>
                             <i class="ri-folder-line"></i>
                             <span>{{ range first 1 .Params.categories }}{{ . }}{{ end }}</span>
                             {{ end }}
                         </div>
+
                         <p class="text-text-dim line-clamp-2 text-sm leading-relaxed">
-    {{ if .Params.description }}
-        {{ .Params.description }}
-    {{ else }}
-        {{ .Summary | plainify | truncate 120 }}
-    {{ end }}
-</p>
+                            {{ if .Params.description }}
+                                {{ .Params.description }}
+                            {{ else }}
+                                {{ .Summary | plainify | truncate 120 }}
+                            {{ end }}
+                        </p>
                     </div>
+                    
                     <div class="flex-shrink-0">
                         <i class="ri-arrow-right-line text-2xl text-muted group-hover:text-accent group-hover:translate-x-1 transition-all duration-300"></i>
                     </div>
@@ -34,5 +39,6 @@
         </a>
     </article>
     {{ end }}
+
 </div>
 {{ end }}

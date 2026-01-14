@@ -505,3 +505,40 @@ body {
     background: linear-gradient(90deg, transparent, rgba(var(--color-border), 0.3), transparent);
     margin: 2.5em 0;
 }
+
+/* 导航项悬停动效 */
+.nav-item {
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.nav-item:hover {
+    transform: scale(1.05);
+}
+
+.nav-item::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: rgb(var(--color-accent));
+    transition: all 0.2s ease;
+    transform: translateX(-50%);
+    opacity: 0;
+}
+
+.nav-item:hover::after {
+    width: 80%;
+    opacity: 1;
+}
+
+/* 文章卡片样式 */
+article {
+    position: relative;
+}
+
+article a {
+    text-decoration: none;
+}

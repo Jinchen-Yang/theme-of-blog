@@ -3,6 +3,10 @@ languageCode = 'zh-cn'
 title = 'Windows DIY 博客'
 theme = 'my-diy-theme'
 
+# 首页内容配置
+[params]
+  mainSections = ["posts"]
+
 # 侧边栏配置
 [params.sidebar]
   # 个人信息
