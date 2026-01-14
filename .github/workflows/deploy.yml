@@ -25,7 +25,7 @@ jobs:
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SERVER_IP }}     # 记得在 GitHub Secrets 里配好这个
-          username: bupt_dev                     # 如果你没配 SERVER_USER，直接写 root 也行
+          username: root                     # 如果你没配 SERVER_USER，直接写 root 也行
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "public/*"
           target: "/root/blog/html/"         # 对应 Docker 挂载的目录
