@@ -1,5 +1,64 @@
 /* static/css/custom.css */
 
+/**
+ * 移动端性能优化
+ * 支持平滑的触屏交互和流畅的动效
+ */
+
+/* ===== 触屏性能优化 ===== */
+
+/* 防止双击缩放导致的 200ms 延迟 */
+* {
+    touch-action: manipulation;
+}
+
+/* 移动端按钮优化 - 防止默认的灰色闪烁 */
+button, a, input, select, textarea, [role="button"] {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+/* 优化移动端的字体渲染 */
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+/* 移动端过渡优化 - 使用动画帧 */
+@supports (animation-timeline: view()) {
+    * {
+        --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+}
+
+/* ===== 避免重排重绘 ===== */
+
+/* 使用 transform 代替 position 改变 */
+.transform-optimized {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* 优化的过渡使用 GPU 加速 */
+.gpu-accelerated {
+    transform: translate3d(0, 0, 0);
+    will-change: transform, opacity;
+}
+
+/* 移动端滚动优化 */
+main, .custom-scrollbar {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
+
+/* 禁用移动端长按菜单 */
+@media (hover: none) and (pointer: coarse) {
+    img, a, button {
+        -webkit-user-select: none;
+        user-select: none;
+    }
+}
+
 :root {
     /* === 深色模式 (默认) === */
     /* 背景：极深灰/黑 */
@@ -296,6 +355,19 @@ body {
     background-color: rgb(var(--color-bg));
     color: rgb(var(--color-text));
     transition: background-color 0.5s ease, color 0.3s ease;
+    /* 移动端优化 */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    touch-action: manipulation;
+    /* 防止点击延迟 */
+    cursor: auto;
+}
+
+/* 触屏设备优化 */
+@media (hover: none) and (pointer: coarse) {
+    body {
+        touch-action: auto;
+    }
 }
 
 /* 滚动条颜色也需要适配 */
@@ -304,9 +376,22 @@ body {
 ::-webkit-scrollbar-thumb { 
     background: rgba(var(--color-accent), 0.3); 
     border-radius: 3px; 
+    transition: background 0.2s ease;
 }
 ::-webkit-scrollbar-thumb:hover { 
     background: rgb(var(--color-accent)); 
+}
+
+/* 移动端滚动优化 */
+@media (hover: none) and (pointer: coarse) {
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: rgba(var(--color-accent), 0.5);
+        border-radius: 4px;
+    }
 }
 
 /* 玻璃拟态面板 */
@@ -316,6 +401,17 @@ body {
     -webkit-backdrop-filter: blur(12px);
     /* 边框颜色现在是动态的了 */
     border: 1px solid rgba(var(--color-border), 0.1);
+    /* GPU加速 */
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+/* 移动端触屏优化 */
+@media (hover: none) and (pointer: coarse) {
+    .glass-panel {
+        -webkit-tap-highlight-color: transparent;
+        backface-visibility: hidden;
+    }
 }
 
 /* 博客文章内容样式 - 确保高对比度和美观度 */
@@ -373,13 +469,26 @@ body {
     color: rgb(var(--color-accent));
     text-decoration: none;
     border-bottom: 2px solid transparent;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     padding-bottom: 1px;
+    transform: translateZ(0);
+    will-change: border-color, opacity;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.prose a:hover {
-    border-bottom-color: rgb(var(--color-accent));
-    opacity: 0.9;
+@media (hover: hover) {
+    .prose a:hover {
+        border-bottom-color: rgb(var(--color-accent));
+        opacity: 0.9;
+    }
+}
+
+/* 移动端触屏反馈 */
+@media (hover: none) and (pointer: coarse) {
+    .prose a:active {
+        opacity: 0.7;
+        border-bottom-color: rgba(var(--color-accent), 0.5);
+    }
 }
 
 /* 强调文本样式 */
@@ -462,6 +571,7 @@ body {
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transform: translateZ(0);
 }
 
 .prose th,
@@ -469,6 +579,7 @@ body {
     border: 1px solid rgba(var(--color-border), 0.25);
     padding: 0.875em 1em;
     text-align: left;
+    transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .prose th {
@@ -479,8 +590,10 @@ body {
     font-size: 0.85em;
 }
 
-.prose tr:hover {
-    background-color: rgba(var(--color-surface-light), 0.3);
+@media (hover: hover) {
+    .prose tr:hover {
+        background-color: rgba(var(--color-surface-light), 0.3);
+    }
 }
 
 /* 图片样式优化 */
@@ -490,12 +603,25 @@ body {
     max-width: 100%;
     height: auto;
     margin: 1.5em 0;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateZ(0);
+    will-change: transform;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
-.prose img:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+@media (hover: hover) {
+    .prose img:hover {
+        transform: translateY(-2px) translateZ(0);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+    }
+}
+
+/* 移动端图片触屏友好 */
+@media (hover: none) and (pointer: coarse) {
+    .prose img:active {
+        transform: scale(0.98) translateZ(0);
+    }
 }
 
 /* 分隔线样式 */
@@ -504,16 +630,19 @@ body {
     height: 2px;
     background: linear-gradient(90deg, transparent, rgba(var(--color-border), 0.3), transparent);
     margin: 2.5em 0;
+    transform: translateZ(0);
 }
 
 /* 导航项悬停动效 */
 .nav-item {
     position: relative;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateZ(0);
+    will-change: transform, color, background-color;
 }
 
 .nav-item:hover {
-    transform: scale(1.05);
+    transform: scale(1.05) translateZ(0);
 }
 
 .nav-item::after {
@@ -524,8 +653,8 @@ body {
     width: 0;
     height: 2px;
     background: rgb(var(--color-accent));
-    transition: all 0.2s ease;
-    transform: translateX(-50%);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(-50%) translateZ(0);
     opacity: 0;
 }
 
@@ -534,11 +663,43 @@ body {
     opacity: 1;
 }
 
+/* 移动端触屏反馈 */
+@media (hover: none) and (pointer: coarse) {
+    .nav-item {
+        -webkit-tap-highlight-color: transparent;
+        transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .nav-item:active {
+        transform: scale(0.98) translateZ(0);
+        opacity: 0.8;
+    }
+}
+
 /* 文章卡片样式 */
 article {
     position: relative;
+    transform: translateZ(0);
+    will-change: transform;
 }
 
 article a {
     text-decoration: none;
+    /* GPU加速和触屏优化 */
+    transform: translateZ(0);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) {
+    article a:hover {
+        transform: translateY(-4px) translateZ(0);
+    }
+}
+
+@media (hover: none) and (pointer: coarse) {
+    article a:active {
+        transform: translateY(2px) translateZ(0);
+        opacity: 0.9;
+    }
 }

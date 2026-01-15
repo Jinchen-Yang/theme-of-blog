@@ -1,0 +1,287 @@
+/**
+ * 移动端优化样式表
+ * 专注于改善触屏流畅度和动效体验
+ */
+
+/* ===== 性能优化基础 ===== */
+
+/* 启用 GPU 加速的关键元素 */
+.animate-fade-in,
+article a,
+button,
+[role="button"],
+.nav-item,
+.glass-panel {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/* ===== 动画优化 ===== */
+
+/* 淡入动画 - 使用 GPU 加速 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px) translateZ(0);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) translateZ(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* 平滑的缩放动画 */
+@keyframes smoothScale {
+    0% {
+        transform: scale(0.95) translateZ(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1) translateZ(0);
+        opacity: 1;
+    }
+}
+
+/* 侧边栏滑入动画 */
+@keyframes slideInFromLeft {
+    from {
+        transform: translateX(-100%) translateZ(0);
+    }
+    to {
+        transform: translateX(0) translateZ(0);
+    }
+}
+
+/* 侧边栏滑出动画 */
+@keyframes slideOutToLeft {
+    from {
+        transform: translateX(0) translateZ(0);
+    }
+    to {
+        transform: translateX(-100%) translateZ(0);
+    }
+}
+
+/* ===== 触屏设备优化 ===== */
+
+@media (hover: none) and (pointer: coarse) {
+    /* 移动端按钮交互 */
+    button, 
+    [role="button"],
+    a[role="button"],
+    .nav-item {
+        -webkit-tap-highlight-color: transparent;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+
+    /* 简化移动端的转换，减少帧数消耗 */
+    * {
+        --transition-duration: 150ms;
+    }
+
+    /* 快速的点击反馈 */
+    button:active,
+    [role="button"]:active,
+    a:active {
+        transform: scale(0.97) translateZ(0);
+        opacity: 0.85;
+    }
+
+    /* 移动端侧边栏转换 */
+    #sidebar {
+        transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+        will-change: transform;
+    }
+
+    /* 快速覆盖层渐变 */
+    #sidebar-overlay {
+        transition: opacity 200ms ease-out !important;
+    }
+
+    /* 设置菜单动画优化 */
+    #settings-menu {
+        transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+        will-change: opacity, transform;
+    }
+
+    /* 链接和卡片的触屏反馈 */
+    article a {
+        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1), 
+                    opacity 150ms ease-out !important;
+    }
+
+    article a:active {
+        transform: translateY(1px) scale(0.99) translateZ(0);
+    }
+
+    /* 快速滚动处理 */
+    main,
+    .custom-scrollbar {
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* ===== 桌面设备优化 ===== */
+
+@media (hover: hover) and (pointer: fine) {
+    /* 桌面端可以用更复杂的动画 */
+    button, 
+    [role="button"],
+    a,
+    .nav-item {
+        transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* 悬停效果 */
+    button:hover,
+    [role="button"]:hover {
+        transform: translateY(-2px) translateZ(0);
+    }
+
+    /* 链接悬停动画 */
+    article a:hover {
+        transform: translateY(-4px) translateZ(0);
+    }
+}
+
+/* ===== 平滑滚动 ===== */
+
+/* 启用平滑滚动，但在移动端使用原生惯性滚动 */
+html {
+    scroll-behavior: smooth;
+}
+
+@media (hover: none) and (pointer: coarse) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* ===== 防止 iOS 字体缩放问题 ===== */
+
+@media only screen and (max-width: 480px) {
+    html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+    }
+
+    /* 减少移动端的动画时长，提升流畅性 */
+    .transition-all {
+        transition-duration: 150ms !important;
+    }
+
+    .transition {
+        transition-duration: 150ms !important;
+    }
+
+    .duration-300 {
+        transition-duration: 150ms !important;
+    }
+
+    .duration-500 {
+        transition-duration: 200ms !important;
+    }
+}
+
+/* ===== 防止重排重绘 ===== */
+
+/* 避免频繁改变布局的属性 */
+.gpu-accelerated {
+    will-change: transform, opacity;
+    contain: layout style paint;
+}
+
+/* 优化内容渲染 */
+.prose {
+    contain: layout style;
+}
+
+/* ===== 减少闪烁 ===== */
+
+/* 快速过渡中防止背景颜色闪烁 */
+button,
+a,
+[role="button"] {
+    transition-property: transform, opacity, box-shadow, background-color, color, border-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== 防止合成图层爆炸 ===== */
+
+/* 只在必要时创建新的合成图层 */
+[style*="transform"],
+[style*="opacity"],
+[style*="will-change"] {
+    position: relative;
+    z-index: auto;
+}
+
+/* ===== 响应式字体优化 ===== */
+
+@media (max-width: 640px) {
+    /* 确保小屏幕上的可点击区域至少为 44x44px */
+    button,
+    a,
+    [role="button"],
+    .nav-item {
+        min-height: 44px;
+        min-width: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* ===== 禁用不必要的功能 ===== */
+
+/* 移动端禁用快速反应延迟优化 */
+@supports (touch-action: manipulation) {
+    button,
+    a,
+    [role="button"] {
+        touch-action: manipulation;
+    }
+}
+
+/* ===== 优化过渡性能 ===== */
+
+/* 使用 CSS 过渡而不是 JavaScript 动画 */
+.transition-fast {
+    transition: all 100ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-normal {
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-slow {
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== 指针事件优化 ===== */
+
+/* 禁用不需要的指针事件 */
+.pointer-events-none {
+    pointer-events: none;
+}
+
+.pointer-events-auto {
+    pointer-events: auto;
+}
+
+/* ===== 高帧率显示优化 ===== */
+
+@supports (backdrop-filter: blur(1px)) {
+    .glass-panel {
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        /* 确保性能 */
+        will-change: auto;
+    }
+}

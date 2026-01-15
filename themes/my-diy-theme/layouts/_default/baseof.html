@@ -2,7 +2,7 @@
 <html lang="{{ or site.Language.LanguageCode site.Language.Lang }}" class="h-full">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.8, minimum-scale=0.5, maximum-scale=2.0">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes, viewport-fit=cover">
     <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}</title>
     
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
@@ -41,6 +41,7 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/custom.css">
+    <link rel="stylesheet" href="/css/mobile-optimize.css">
 </head>
 
 <body class="h-full overflow-hidden transition-colors duration-500">
@@ -163,6 +164,31 @@
     <meta id="typewriter-data" data-texts="{{ site.Data.sidebar.typewriter.texts | jsonify }}">
 
     <script>
+        // ===== 移动端性能优化 =====
+        // 检测是否为触屏设备
+        const isTouchDevice = () => {
+            return (('ontouchstart' in window) ||
+                    (navigator.maxTouchPoints > 0) ||
+                    (navigator.msMaxTouchPoints > 0));
+        };
+
+        // 添加设备类型标记，便于 CSS 媒体查询
+        if (isTouchDevice()) {
+            document.documentElement.setAttribute('data-touch', 'true');
+        }
+
+        // 防止不必要的重绘 - 使用 requestAnimationFrame
+        let scheduledAnimations = new Map();
+        function scheduleAnimation(element, callback) {
+            if (!scheduledAnimations.has(element)) {
+                requestAnimationFrame(() => {
+                    callback(element);
+                    scheduledAnimations.delete(element);
+                });
+                scheduledAnimations.set(element, true);
+            }
+        }
+
         // --- A. 侧边栏引擎 ---
         const sidebar = document.getElementById('sidebar');
         const mainContent = document.getElementById('main-content');
@@ -173,13 +199,15 @@
 
         function toggleSettingsMenu() {
             settingsMenuOpen = !settingsMenuOpen;
-            if (settingsMenuOpen) {
-                settingsMenu.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4', 'scale-95');
-                settingsMenu.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0', 'scale-100');
-            } else {
-                settingsMenu.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4', 'scale-95');
-                settingsMenu.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0', 'scale-100');
-            }
+            scheduleAnimation(settingsMenu, (element) => {
+                if (settingsMenuOpen) {
+                    element.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4', 'scale-95');
+                    element.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0', 'scale-100');
+                } else {
+                    element.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4', 'scale-95');
+                    element.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0', 'scale-100');
+                }
+            });
         }
 
         // 点击外部关闭设置菜单
@@ -187,25 +215,27 @@
             if (settingsMenuOpen && !settingsMenu.contains(e.target) && !settingsBtn.contains(e.target)) {
                 toggleSettingsMenu();
             }
-        });
+        }, { passive: true });
         
         function toggleSidebar() {
             const isHidden = sidebar.classList.contains('-translate-x-full');
-            if (isHidden) {
-                sidebar.classList.remove('-translate-x-full');
-                if (window.innerWidth >= 768) {
-                    mainContent.classList.add('md:pl-72');
+            scheduleAnimation(sidebar, (element) => {
+                if (isHidden) {
+                    element.classList.remove('-translate-x-full');
+                    if (window.innerWidth >= 768) {
+                        mainContent.classList.add('md:pl-72');
+                    } else {
+                        overlay.classList.remove('hidden');
+                    }
                 } else {
-                    overlay.classList.remove('hidden');
+                    element.classList.add('-translate-x-full');
+                    if (window.innerWidth >= 768) {
+                        mainContent.classList.remove('md:pl-72');
+                    } else {
+                        overlay.classList.add('hidden');
+                    }
                 }
-            } else {
-                sidebar.classList.add('-translate-x-full');
-                if (window.innerWidth >= 768) {
-                    mainContent.classList.remove('md:pl-72');
-                } else {
-                    overlay.classList.add('hidden');
-                }
-            }
+            });
         }
 
         // --- B. 主题引擎 ---
