@@ -135,14 +135,61 @@
             </div>
 
             <div>
-                <p class="text-xs text-muted mb-2 font-bold">MORANDI THEME</p>
-                <div class="grid grid-cols-3 gap-3">
-                    <button onclick="setMorandiTheme('muted-blue')" class="w-9 h-9 rounded-xl bg-slate-600 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200 pointer-events-auto" title="灰蓝"></button>
-                    <button onclick="setMorandiTheme('muted-green')" class="w-9 h-9 rounded-xl bg-emerald-700 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200 pointer-events-auto" title="灰绿"></button>
-                    <button onclick="setMorandiTheme('muted-pink')" class="w-9 h-9 rounded-xl bg-pink-600 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200 pointer-events-auto" title="灰粉"></button>
-                    <button onclick="setMorandiTheme('muted-yellow')" class="w-9 h-9 rounded-xl bg-amber-600 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200 pointer-events-auto" title="灰黄"></button>
-                    <button onclick="setMorandiTheme('muted-purple')" class="w-9 h-9 rounded-xl bg-violet-700 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200 pointer-events-auto" title="灰紫"></button>
-                    <button onclick="setMorandiTheme('muted-orange')" class="w-9 h-9 rounded-xl bg-orange-600 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200 pointer-events-auto" title="灰橙"></button>
+                <p class="text-xs text-muted mb-3 font-bold uppercase tracking-wider">主题配色</p>
+                <div class="grid grid-cols-3 gap-2 p-2 bg-bg/50 rounded-lg border border-border-color/10">
+                    <button onclick="setMorandiTheme('muted-blue')" class="group relative h-14 rounded-lg overflow-hidden transition-all duration-200 pointer-events-auto hover:scale-105 hover:shadow-lg" title="灰蓝">
+                        <div class="absolute inset-0 bg-gradient-to-br from-slate-400 to-slate-700"></div>
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-200"></div>
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                            <i class="ri-check-line text-white text-lg"></i>
+                        </div>
+                        <div class="absolute -bottom-0.5 left-0 right-0 h-1 bg-gradient-to-r from-slate-500 to-slate-600"></div>
+                    </button>
+                    
+                    <button onclick="setMorandiTheme('muted-green')" class="group relative h-14 rounded-lg overflow-hidden transition-all duration-200 pointer-events-auto hover:scale-105 hover:shadow-lg" title="灰绿">
+                        <div class="absolute inset-0 bg-gradient-to-br from-emerald-400 to-emerald-700"></div>
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-200"></div>
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                            <i class="ri-check-line text-white text-lg"></i>
+                        </div>
+                        <div class="absolute -bottom-0.5 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 to-emerald-600"></div>
+                    </button>
+                    
+                    <button onclick="setMorandiTheme('muted-pink')" class="group relative h-14 rounded-lg overflow-hidden transition-all duration-200 pointer-events-auto hover:scale-105 hover:shadow-lg" title="灰粉">
+                        <div class="absolute inset-0 bg-gradient-to-br from-pink-400 to-pink-700"></div>
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-200"></div>
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                            <i class="ri-check-line text-white text-lg"></i>
+                        </div>
+                        <div class="absolute -bottom-0.5 left-0 right-0 h-1 bg-gradient-to-r from-pink-500 to-pink-600"></div>
+                    </button>
+                    
+                    <button onclick="setMorandiTheme('muted-yellow')" class="group relative h-14 rounded-lg overflow-hidden transition-all duration-200 pointer-events-auto hover:scale-105 hover:shadow-lg" title="灰黄">
+                        <div class="absolute inset-0 bg-gradient-to-br from-amber-400 to-amber-700"></div>
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-200"></div>
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                            <i class="ri-check-line text-white text-lg"></i>
+                        </div>
+                        <div class="absolute -bottom-0.5 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-amber-600"></div>
+                    </button>
+                    
+                    <button onclick="setMorandiTheme('muted-purple')" class="group relative h-14 rounded-lg overflow-hidden transition-all duration-200 pointer-events-auto hover:scale-105 hover:shadow-lg" title="灰紫">
+                        <div class="absolute inset-0 bg-gradient-to-br from-violet-400 to-violet-800"></div>
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-200"></div>
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                            <i class="ri-check-line text-white text-lg"></i>
+                        </div>
+                        <div class="absolute -bottom-0.5 left-0 right-0 h-1 bg-gradient-to-r from-violet-500 to-violet-600"></div>
+                    </button>
+                    
+                    <button onclick="setMorandiTheme('muted-orange')" class="group relative h-14 rounded-lg overflow-hidden transition-all duration-200 pointer-events-auto hover:scale-105 hover:shadow-lg" title="灰橙">
+                        <div class="absolute inset-0 bg-gradient-to-br from-orange-400 to-orange-700"></div>
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-200"></div>
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                            <i class="ri-check-line text-white text-lg"></i>
+                        </div>
+                        <div class="absolute -bottom-0.5 left-0 right-0 h-1 bg-gradient-to-r from-orange-500 to-orange-600"></div>
+                    </button>
                 </div>
             </div>
 
@@ -163,257 +210,8 @@
 
     <meta id="typewriter-data" data-texts="{{ site.Data.sidebar.typewriter.texts | jsonify }}">
 
-    <script>
-        // ===== 移动端性能优化 =====
-        // 检测是否为触屏设备
-        const isTouchDevice = () => {
-            return (('ontouchstart' in window) ||
-                    (navigator.maxTouchPoints > 0) ||
-                    (navigator.msMaxTouchPoints > 0));
-        };
+    <!-- 模块化JavaScript入口 -->
+    <script type="module" src="/js/main.js"></script>
 
-        // 添加设备类型标记，便于 CSS 媒体查询
-        if (isTouchDevice()) {
-            document.documentElement.setAttribute('data-touch', 'true');
-        }
-
-        // 防止不必要的重绘 - 使用 requestAnimationFrame
-        let scheduledAnimations = new Map();
-        function scheduleAnimation(element, callback) {
-            if (!scheduledAnimations.has(element)) {
-                requestAnimationFrame(() => {
-                    callback(element);
-                    scheduledAnimations.delete(element);
-                });
-                scheduledAnimations.set(element, true);
-            }
-        }
-
-        // --- A. 侧边栏引擎 ---
-        const sidebar = document.getElementById('sidebar');
-        const mainContent = document.getElementById('main-content');
-        const overlay = document.getElementById('sidebar-overlay');
-        const settingsMenu = document.getElementById('settings-menu');
-        const settingsBtn = document.getElementById('settings-btn');
-        let settingsMenuOpen = false;
-
-        function toggleSettingsMenu() {
-            settingsMenuOpen = !settingsMenuOpen;
-            scheduleAnimation(settingsMenu, (element) => {
-                if (settingsMenuOpen) {
-                    element.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4', 'scale-95');
-                    element.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0', 'scale-100');
-                } else {
-                    element.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4', 'scale-95');
-                    element.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0', 'scale-100');
-                }
-            });
-        }
-
-        // 点击外部关闭设置菜单
-        document.addEventListener('click', (e) => {
-            if (settingsMenuOpen && !settingsMenu.contains(e.target) && !settingsBtn.contains(e.target)) {
-                toggleSettingsMenu();
-            }
-        }, { passive: true });
-        
-        function toggleSidebar() {
-            const isHidden = sidebar.classList.contains('-translate-x-full');
-            scheduleAnimation(sidebar, (element) => {
-                if (isHidden) {
-                    element.classList.remove('-translate-x-full');
-                    if (window.innerWidth >= 768) {
-                        mainContent.classList.add('md:pl-72');
-                    } else {
-                        overlay.classList.remove('hidden');
-                    }
-                } else {
-                    element.classList.add('-translate-x-full');
-                    if (window.innerWidth >= 768) {
-                        mainContent.classList.remove('md:pl-72');
-                    } else {
-                        overlay.classList.add('hidden');
-                    }
-                }
-            });
-        }
-
-        // --- B. 主题引擎 ---
-        let currentMode = 'auto';
-        let currentMorandiTheme = null;
-        
-        function setThemeMode(mode) {
-            currentMode = mode;
-            localStorage.setItem('theme-mode', mode);
-            applyTheme(mode);
-        }
-        
-        function applyTheme(mode) {
-            const root = document.documentElement;
-            // 重置按钮样式
-            document.querySelectorAll('#btn-auto, #btn-light, #btn-dark').forEach(b => {
-                b.classList.remove('text-accent', 'bg-surface', 'shadow-sm');
-                b.classList.add('text-muted');
-            });
-            // 激活按钮样式
-            const activeBtn = document.getElementById(`btn-${mode}`);
-            if(activeBtn) {
-                activeBtn.classList.remove('text-muted');
-                activeBtn.classList.add('text-accent', 'bg-surface', 'shadow-sm');
-            }
-            
-            // 设置模式属性
-            if (mode === 'auto') {
-                const hour = new Date().getHours();
-                const isNight = hour < 6 || hour >= 18;
-                root.setAttribute('data-mode', isNight ? 'dark' : 'light');
-                
-                // 自动模式下，根据时间设置默认莫兰迪主题
-                if (!currentMorandiTheme) {
-                    if (isNight) {
-                        // 夜间：灰黑色主题
-                        setMorandiTheme('muted-purple');
-                    } else {
-                        // 白天：灰白色主题
-                        setMorandiTheme('muted-blue');
-                    }
-                }
-            } else {
-                root.setAttribute('data-mode', mode);
-            }
-            
-            // 如果有莫兰迪主题，重新应用以更新模式
-            if (currentMorandiTheme) {
-                root.setAttribute('data-theme', currentMorandiTheme);
-            }
-        }
-
-        // --- C. 莫兰迪主题引擎 ---
-        function setMorandiTheme(themeName) {
-            const root = document.documentElement;
-            currentMorandiTheme = themeName;
-            root.setAttribute('data-theme', themeName);
-            localStorage.setItem('morandi-theme', themeName);
-        }
-
-        // --- D. 缩放控制引擎 ---
-        let currentZoom = 0.8;
-        function adjustZoom(delta) {
-            currentZoom = Math.max(0.5, Math.min(2.0, currentZoom + delta));
-            currentZoom = Math.round(currentZoom * 10) / 10; // 保留一位小数
-            
-            const viewport = document.querySelector('meta[name=viewport]');
-            if (viewport) {
-                viewport.setAttribute('content', `width=device-width, initial-scale=${currentZoom}, minimum-scale=0.5, maximum-scale=2.0`);
-            }
-            
-            // 更新显示
-            const zoomLevel = document.getElementById('zoom-level');
-            if (zoomLevel) {
-                zoomLevel.textContent = Math.round(currentZoom * 100) + '%';
-            }
-            
-            // 保存设置
-            localStorage.setItem('mobile-scale', currentZoom.toString());
-        }
-
-        // --- D. 打字机引擎 ---
-        const textElement = document.getElementById('typewriter');
-        const dataElement = document.getElementById('typewriter-data');
-        let texts = ["Hello World."];
-
-        if (dataElement) {
-            try {
-                const raw = dataElement.getAttribute('data-texts');
-                if (raw) texts = JSON.parse(raw);
-            } catch(e) { console.error(e); }
-        }
-
-        let textIndex = 0, charIndex = 0, isDeleting = false;
-        function type() {
-            if (!texts.length) return;
-            const current = texts[textIndex];
-            
-            if (isDeleting) {
-                textElement.textContent = current.substring(0, charIndex - 1);
-                charIndex--;
-            } else {
-                textElement.textContent = current.substring(0, charIndex + 1);
-                charIndex++;
-            }
-
-            let speed = isDeleting ? 50 : 100;
-            if (!isDeleting && charIndex === current.length) {
-                speed = 2000; isDeleting = true;
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                textIndex = (textIndex + 1) % texts.length;
-                speed = 500;
-            }
-            setTimeout(type, speed);
-        }
-
-        // --- E. 初始化 ---
-        document.addEventListener('DOMContentLoaded', () => {
-            type();
-            const savedMode = localStorage.getItem('theme-mode') || 'auto';
-            const savedMorandiTheme = localStorage.getItem('morandi-theme');
-            
-            currentMode = savedMode;
-            if (savedMorandiTheme) currentMorandiTheme = savedMorandiTheme;
-            
-            // 先应用模式
-            applyTheme(savedMode);
-            // 再应用莫兰迪主题（如果有）
-            if (savedMorandiTheme) setMorandiTheme(savedMorandiTheme);
-
-            // 初始化侧边栏状态：电脑端默认展示，手机端默认关闭
-            initSidebar();
-
-            // 手机端缩放控制
-            if (window.innerWidth < 768) {
-                const viewport = document.querySelector('meta[name=viewport]');
-                if (viewport) {
-                    const savedScale = localStorage.getItem('mobile-scale');
-                    const initialScale = savedScale ? parseFloat(savedScale) : 0.8;
-                    currentZoom = initialScale;
-                    viewport.setAttribute('content', `width=device-width, initial-scale=${initialScale}, minimum-scale=0.5, maximum-scale=2.0`);
-                    
-                    // 更新缩放显示
-                    const zoomLevel = document.getElementById('zoom-level');
-                    if (zoomLevel) {
-                        zoomLevel.textContent = Math.round(currentZoom * 100) + '%';
-                    }
-                }
-            }
-
-            window.addEventListener('resize', () => {
-                if (window.innerWidth >= 768) {
-                    // 切换到电脑端：隐藏遮罩层
-                    overlay.classList.add('hidden');
-                } else {
-                    // 切换到手机端：隐藏侧边栏
-                    if (!sidebar.classList.contains('-translate-x-full')) {
-                        sidebar.classList.add('-translate-x-full');
-                        mainContent.classList.remove('md:pl-72');
-                    }
-                }
-            });
-        });
-
-        // 初始化侧边栏状态
-        function initSidebar() {
-            if (window.innerWidth >= 768) {
-                // 电脑端：显示侧边栏
-                sidebar.classList.remove('-translate-x-full');
-                mainContent.classList.add('md:pl-72');
-            } else {
-                // 手机端：隐藏侧边栏
-                sidebar.classList.add('-translate-x-full');
-                mainContent.classList.remove('md:pl-72');
-            }
-            overlay.classList.add('hidden');
-        }
-    </script>
 </body>
 </html>

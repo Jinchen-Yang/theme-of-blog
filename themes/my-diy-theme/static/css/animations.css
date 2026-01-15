@@ -1,0 +1,139 @@
+/**
+ * 动画效果
+ * 定义所有动画关键帧
+ */
+
+/* ===== 弹性滚动回弹 ===== */
+@keyframes elasticBounce {
+    0% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(8px) scale(0.995);
+    }
+    100% {
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ===== 淡入 ===== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* ===== 平滑缩放 ===== */
+@keyframes smoothScale {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ===== 从左滑入 ===== */
+@keyframes slideInFromLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* ===== 从右滑出 ===== */
+@keyframes slideOutToRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* ===== 旋转 ===== */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ===== 脉冲 ===== */
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* ===== 弹跳 ===== */
+@keyframes bounce {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* ===== 闪烁 ===== */
+@keyframes blink {
+    0%,
+    49% {
+        opacity: 1;
+    }
+    50%,
+    100% {
+        opacity: 0;
+    }
+}
+
+/* ===== GPU加速类 ===== */
+.gpu-accelerated {
+    transform: translate3d(0, 0, 0);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+}
+
+/* ===== 动画实用类 ===== */
+.animate-fade-in {
+    animation: fadeIn 0.5s var(--easing-smooth) forwards;
+}
+
+.animate-scale {
+    animation: smoothScale 0.3s var(--easing-smooth) forwards;
+}
+
+.animate-slide-in {
+    animation: slideInFromLeft 0.3s var(--easing-smooth) forwards;
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+.animate-pulse {
+    animation: pulse 2s var(--easing-smooth) infinite;
+}
+
+.animate-bounce {
+    animation: bounce 0.6s var(--easing-bounce);
+}

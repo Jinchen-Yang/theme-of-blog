@@ -1,0 +1,78 @@
+/**
+ * CSS 变量定义
+ * 统一管理所有颜色、尺寸、间距和动画参数
+ */
+
+:root {
+    /* ===== 深色模式（默认） ===== */
+    --color-bg-deep: 30, 41, 59;
+    --color-bg: 51, 65, 85;
+    --color-surface: 100, 116, 139;
+    --color-text: 243, 244, 246;
+    --color-text-muted: 203, 213, 225;
+    --color-border: 203, 213, 225;
+    --color-accent: 167, 139, 250;
+
+    /* ===== 尺寸规范 ===== */
+    --size-sidebar: 288px;
+    --size-card-button: 56px;
+    --size-touch-min: 44px;
+
+    /* ===== 间距规范 ===== */
+    --space-xs: 8px;
+    --space-sm: 12px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+
+    /* ===== 过渡时间 ===== */
+    --duration-fast: 150ms;
+    --duration-normal: 200ms;
+    --duration-slow: 300ms;
+    --duration-bounce: 600ms;
+
+    /* ===== 缓动函数 ===== */
+    --easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --easing-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ===== 浅色模式 ===== */
+[data-mode="light"] {
+    --color-bg: 243, 244, 246;
+    --color-surface: 255, 255, 255;
+    --color-text: 17, 24, 39;
+    --color-text-muted: 55, 65, 81;
+    --color-border: 0, 0, 0;
+}
+
+/* ===== 莫兰迪主题定义 ===== */
+
+/* 灰蓝 */
+[data-theme="muted-blue"] {
+    --color-accent: 113, 143, 180;
+}
+
+/* 灰绿 */
+[data-theme="muted-green"] {
+    --color-accent: 109, 157, 119;
+}
+
+/* 灰粉 */
+[data-theme="muted-pink"] {
+    --color-accent: 185, 111, 155;
+}
+
+/* 灰黄 */
+[data-theme="muted-yellow"] {
+    --color-accent: 198, 160, 94;
+}
+
+/* 灰紫 */
+[data-theme="muted-purple"] {
+    --color-accent: 142, 103, 168;
+}
+
+/* 灰橙 */
+[data-theme="muted-orange"] {
+    --color-accent: 198, 109, 62;
+}

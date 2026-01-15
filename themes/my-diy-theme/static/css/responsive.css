@@ -1,0 +1,198 @@
+/**
+ * 响应式设计
+ * 媒体查询和设备特定样式
+ */
+
+/* ===== 桌面端样式（hover设备） ===== */
+@media (hover: hover) and (pointer: fine) {
+    /* 桌面端启用高级hover效果 */
+    
+    a,
+    button {
+        cursor: pointer;
+    }
+
+    .nav-item:hover {
+        box-shadow: 0 2px 8px rgba(var(--color-accent), 0.2);
+    }
+
+    .card:hover {
+        transform: translateY(-2px);
+    }
+}
+
+/* ===== 移动端/触屏设备 ===== */
+@media (hover: none) and (pointer: coarse) {
+    /* 移动端禁用复杂的hover效果，使用active代替 */
+
+    .nav-item:active {
+        background-color: rgba(var(--color-accent), 0.1);
+        color: rgb(var(--color-accent));
+    }
+
+    .card:active {
+        transform: scale(0.98);
+    }
+}
+
+/* ===== 触屏设备标记 ===== */
+[data-touch="true"] {
+    /* 移动端特定优化 */
+}
+
+[data-touch="true"] * {
+    /* 防止双击缩放延迟 - 已在全局设置 */
+}
+
+/* ===== 响应式断点 ===== */
+
+/* 超小屏（<640px）- 手机竖屏 */
+@media (max-width: 639px) {
+    html {
+        font-size: 14px;
+    }
+
+    body {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    .hide-mobile {
+        display: none !important;
+    }
+}
+
+/* 小屏（640px-767px）- 手机横屏 */
+@media (min-width: 640px) and (max-width: 767px) {
+    html {
+        font-size: 15px;
+    }
+
+    body {
+        font-size: 15px;
+    }
+}
+
+/* 中屏（768px-1023px）- 平板 */
+@media (min-width: 768px) and (max-width: 1023px) {
+    html {
+        font-size: 16px;
+    }
+
+    body {
+        font-size: 16px;
+    }
+
+    .hide-tablet {
+        display: none !important;
+    }
+}
+
+/* 大屏（≥1024px）- 桌面 */
+@media (min-width: 1024px) {
+    html {
+        font-size: 16px;
+    }
+
+    body {
+        font-size: 16px;
+    }
+
+    .hide-desktop {
+        display: none !important;
+    }
+}
+
+/* ===== 高分辨率屏幕（Retina） ===== */
+@media (-webkit-min-device-pixel-ratio: 2),
+       (min-resolution: 192dpi) {
+    img {
+        image-rendering: -webkit-optimize-contrast;
+    }
+}
+
+/* ===== 黑暗模式首选项 ===== */
+@media (prefers-color-scheme: dark) {
+    /* 可以在这里添加深色模式特定的样式 */
+}
+
+@media (prefers-color-scheme: light) {
+    /* 可以在这里添加浅色模式特定的样式 */
+}
+
+/* ===== 减少运动首选项 ===== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ===== 高对比度首选项 ===== */
+@media (prefers-contrast: more) {
+    :root {
+        --easing-smooth: cubic-bezier(0, 0, 1, 1);
+        --easing-bounce: cubic-bezier(0, 0, 1, 1);
+    }
+}
+
+/* ===== 打印样式 ===== */
+@media print {
+    body {
+        background-color: white;
+        color: black;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    a {
+        color: blue;
+        text-decoration: underline;
+    }
+
+    .card {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+}
+
+/* ===== 横屏 vs 竖屏 ===== */
+@media (orientation: landscape) {
+    /* 横屏特定样式 */
+}
+
+@media (orientation: portrait) {
+    /* 竖屏特定样式 */
+}
+
+/* ===== 宽屏优化 ===== */
+@media (min-width: 1440px) {
+    main {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+}
+
+/* ===== 显示器缩放 ===== */
+@media (max-width: 360px) {
+    /* 超小型手机优化 */
+    .btn {
+        padding: 0 12px;
+    }
+}
