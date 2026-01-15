@@ -121,42 +121,42 @@
 
     </div>
 
-    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end pointer-events-none">
         
         <div id="settings-menu" class="bg-surface/95 backdrop-blur-md border border-border-color/20 p-5 rounded-2xl shadow-2xl translate-y-4 opacity-0 pointer-events-none transition-all duration-300 ease-out mb-2 scale-95">
             
             <div class="mb-4">
                 <p class="text-xs text-muted mb-2 font-bold">MODE</p>
                 <div class="flex bg-bg/80 backdrop-blur-sm rounded-xl p-1 border border-border-color/20">
-                    <button onclick="setThemeMode('auto')" class="flex-1 px-3 py-2 text-xs rounded-lg hover:bg-surface/80 hover:scale-105 text-muted transition-all duration-200" id="btn-auto">Auto</button>
-                    <button onclick="setThemeMode('light')" class="flex-1 px-3 py-2 text-xs rounded-lg hover:bg-surface/80 hover:scale-105 text-muted transition-all duration-200" id="btn-light">☀</button>
-                    <button onclick="setThemeMode('dark')" class="flex-1 px-3 py-2 text-xs rounded-lg hover:bg-surface/80 hover:scale-105 text-muted transition-all duration-200" id="btn-dark">🌙</button>
+                    <button onclick="setThemeMode('auto')" class="flex-1 px-3 py-2 text-xs rounded-lg hover:bg-surface/80 hover:scale-105 text-muted transition-all duration-200 pointer-events-auto" id="btn-auto">Auto</button>
+                    <button onclick="setThemeMode('light')" class="flex-1 px-3 py-2 text-xs rounded-lg hover:bg-surface/80 hover:scale-105 text-muted transition-all duration-200 pointer-events-auto" id="btn-light">☀</button>
+                    <button onclick="setThemeMode('dark')" class="flex-1 px-3 py-2 text-xs rounded-lg hover:bg-surface/80 hover:scale-105 text-muted transition-all duration-200 pointer-events-auto" id="btn-dark">🌙</button>
                 </div>
             </div>
 
             <div>
                 <p class="text-xs text-muted mb-2 font-bold">MORANDI THEME</p>
                 <div class="grid grid-cols-3 gap-3">
-                    <button onclick="setMorandiTheme('muted-blue')" class="w-9 h-9 rounded-xl bg-slate-600 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200" title="灰蓝"></button>
-                    <button onclick="setMorandiTheme('muted-green')" class="w-9 h-9 rounded-xl bg-emerald-700 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200" title="灰绿"></button>
-                    <button onclick="setMorandiTheme('muted-pink')" class="w-9 h-9 rounded-xl bg-pink-600 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200" title="灰粉"></button>
-                    <button onclick="setMorandiTheme('muted-yellow')" class="w-9 h-9 rounded-xl bg-amber-600 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200" title="灰黄"></button>
-                    <button onclick="setMorandiTheme('muted-purple')" class="w-9 h-9 rounded-xl bg-violet-700 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200" title="灰紫"></button>
-                    <button onclick="setMorandiTheme('muted-orange')" class="w-9 h-9 rounded-xl bg-orange-600 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200" title="灰橙"></button>
+                    <button onclick="setMorandiTheme('muted-blue')" class="w-9 h-9 rounded-xl bg-slate-600 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200 pointer-events-auto" title="灰蓝"></button>
+                    <button onclick="setMorandiTheme('muted-green')" class="w-9 h-9 rounded-xl bg-emerald-700 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200 pointer-events-auto" title="灰绿"></button>
+                    <button onclick="setMorandiTheme('muted-pink')" class="w-9 h-9 rounded-xl bg-pink-600 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200 pointer-events-auto" title="灰粉"></button>
+                    <button onclick="setMorandiTheme('muted-yellow')" class="w-9 h-9 rounded-xl bg-amber-600 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200 pointer-events-auto" title="灰黄"></button>
+                    <button onclick="setMorandiTheme('muted-purple')" class="w-9 h-9 rounded-xl bg-violet-700 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200 pointer-events-auto" title="灰紫"></button>
+                    <button onclick="setMorandiTheme('muted-orange')" class="w-9 h-9 rounded-xl bg-orange-600 border-2 border-transparent hover:scale-110 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 transition-all duration-200 pointer-events-auto" title="灰橙"></button>
                 </div>
             </div>
 
             <div class="md:hidden">
                 <p class="text-xs text-muted mb-2 font-bold">ZOOM</p>
                 <div class="flex items-center justify-between bg-bg/80 backdrop-blur-sm rounded-xl p-1 border border-border-color/20">
-                    <button onclick="adjustZoom(-0.1)" class="flex-1 px-3 py-2 text-xs rounded-lg hover:bg-surface/80 hover:scale-105 text-muted transition-all duration-200">-</button>
+                    <button onclick="adjustZoom(-0.1)" class="flex-1 px-3 py-2 text-xs rounded-lg hover:bg-surface/80 hover:scale-105 text-muted transition-all duration-200 pointer-events-auto">-</button>
                     <span id="zoom-level" class="text-xs text-text-muted px-2 font-mono">80%</span>
-                    <button onclick="adjustZoom(0.1)" class="flex-1 px-3 py-2 text-xs rounded-lg hover:bg-surface/80 hover:scale-105 text-muted transition-all duration-200">+</button>
+                    <button onclick="adjustZoom(0.1)" class="flex-1 px-3 py-2 text-xs rounded-lg hover:bg-surface/80 hover:scale-105 text-muted transition-all duration-200 pointer-events-auto">+</button>
                 </div>
             </div>
         </div>
 
-        <button id="settings-btn" class="w-14 h-14 bg-surface/95 backdrop-blur-md text-accent rounded-2xl shadow-xl border border-border-color/20 flex items-center justify-center cursor-pointer hover:rotate-180 hover:scale-110 hover:shadow-2xl hover:shadow-accent/20 transition-all duration-500 ease-out" onclick="toggleSettingsMenu()">
+        <button id="settings-btn" class="w-14 h-14 bg-surface/95 backdrop-blur-md text-accent rounded-2xl shadow-xl border border-border-color/20 flex items-center justify-center cursor-pointer hover:rotate-180 hover:scale-110 hover:shadow-2xl hover:shadow-accent/20 transition-all duration-500 ease-out pointer-events-auto" onclick="toggleSettingsMenu()">
             <i class="ri-settings-3-line text-2xl"></i>
         </button>
     </div>
